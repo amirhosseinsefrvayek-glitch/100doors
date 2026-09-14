@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>100 Doors — The Internet Puzzle</title>
-    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>100 Doors — Ancient Vault</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&family=Orbitron:wght@400;700;900&family=Cinzel:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,119 +14,104 @@
         }
 
         :root {
-            --bg-0: #030308;
-            --bg-1: #0a0a18;
-            --bg-2: #12122a;
-            --bg-card: rgba(255, 255, 255, 0.03);
-            --bg-glass: rgba(15, 15, 35, 0.7);
-            --bg-glass-strong: rgba(15, 15, 35, 0.95);
+            /* Ancient Vault Palette */
+            --bg-deep: #0a0506;
+            --bg-mid: #14090a;
+            --bg-light: #1e1210;
+            --bg-card: rgba(232, 184, 74, 0.05);
+            --bg-glass: rgba(30, 18, 16, 0.75);
+            --bg-glass-strong: rgba(30, 18, 16, 0.95);
 
-            --neon-cyan: #00f0ff;
-            --neon-purple: #b537f2;
-            --neon-pink: #ff2e97;
-            --neon-yellow: #ffd60a;
-            --neon-green: #06ffa5;
-            --neon-red: #ff3860;
-            --neon-orange: #ff8c42;
+            --gold: #e8b84a;
+            --gold-bright: #f5d77a;
+            --gold-dim: #8a6b28;
+            --copper: #b87333;
+            --cream: #f5e6d3;
+            --rust: #8b3a1a;
+            --blood: #6b0f0f;
 
-            --text-primary: #ffffff;
-            --text-secondary: #a0a0c0;
-            --text-dim: #606080;
+            --text-primary: #f5e6d3;
+            --text-secondary: #a89080;
+            --text-dim: #6b5648;
 
-            --border: rgba(255, 255, 255, 0.08);
-            --border-strong: rgba(255, 255, 255, 0.15);
+            --border: rgba(232, 184, 74, 0.15);
+            --border-strong: rgba(232, 184, 74, 0.35);
 
-            --grad-primary: linear-gradient(135deg, #00f0ff 0%, #b537f2 100%);
-            --grad-fire: linear-gradient(135deg, #ff2e97 0%, #ff8c42 100%);
-            --grad-gold: linear-gradient(135deg, #ffd60a 0%, #ff8c42 100%);
+            --grad-gold: linear-gradient(135deg, #e8b84a 0%, #b87333 100%);
+            --grad-dark: linear-gradient(135deg, #1e1210 0%, #0a0506 100%);
         }
 
         html { scroll-behavior: smooth; }
 
         body {
-            background: var(--bg-0);
+            background: var(--bg-deep);
             color: var(--text-primary);
-            font-family: 'Vazirmatn', sans-serif;
+            font-family: 'Vazirmatn', 'Cinzel', serif;
             line-height: 1.6;
             overflow: hidden;
             min-height: 100vh;
             position: relative;
-            transition: background 0.4s ease;
         }
 
-        /* ===== Background Effects ===== */
-        .bg-fx {
+        /* ===== Background - Ancient Dust ===== */
+        .bg-vault {
             position: fixed;
             inset: 0;
             z-index: -2;
             pointer-events: none;
-            overflow: hidden;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(232, 184, 74, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(184, 115, 51, 0.1) 0%, transparent 50%),
+                var(--bg-deep);
         }
 
-        .bg-orb {
-            position: absolute;
+        /* Stone texture overlay */
+        .bg-stone {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            opacity: 0.08;
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.5' numOctaves='4' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/%3E%3C/svg%3E");
+        }
+
+        /* Floating dust particles */
+        .dust {
+            position: fixed;
+            width: 3px;
+            height: 3px;
+            background: radial-gradient(circle, var(--gold-bright), transparent);
             border-radius: 50%;
-            filter: blur(100px);
-            opacity: 0.35;
-            mix-blend-mode: screen;
+            pointer-events: none;
+            z-index: 0;
+            box-shadow: 0 0 8px var(--gold);
+            animation: dustFloat linear infinite;
         }
 
-        .orb-1 {
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, #00f0ff, transparent 70%);
-            top: -200px; right: -150px;
-            animation: orbFloat1 20s infinite ease-in-out;
+        @keyframes dustFloat {
+            0% {
+                transform: translateY(100vh) translateX(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-10vh) translateX(30px);
+                opacity: 0;
+            }
         }
 
-        .orb-2 {
-            width: 400px; height: 400px;
-            background: radial-gradient(circle, #b537f2, transparent 70%);
-            bottom: -150px; left: -100px;
-            animation: orbFloat2 25s infinite ease-in-out;
-        }
-
-        .orb-3 {
-            width: 350px; height: 350px;
-            background: radial-gradient(circle, #ff2e97, transparent 70%);
-            top: 40%; left: 40%;
-            animation: orbFloat3 30s infinite ease-in-out;
-        }
-
-        @keyframes orbFloat1 {
-            0%,100% { transform: translate(0,0) scale(1); }
-            50% { transform: translate(-80px, 100px) scale(1.1); }
-        }
-        @keyframes orbFloat2 {
-            0%,100% { transform: translate(0,0) scale(1); }
-            50% { transform: translate(100px, -80px) scale(1.15); }
-        }
-        @keyframes orbFloat3 {
-            0%,100% { transform: translate(0,0) scale(1); }
-            50% { transform: translate(-100px, 80px) scale(0.9); }
-        }
-
-        /* Grid */
-        .bg-grid {
+        /* Vignette */
+        .vignette {
             position: fixed;
             inset: 0;
-            z-index: -1;
+            z-index: 1;
             pointer-events: none;
-            background-image:
-                linear-gradient(rgba(0, 240, 255, 0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0, 240, 255, 0.04) 1px, transparent 1px);
-            background-size: 60px 60px;
-            mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
-            -webkit-mask-image: radial-gradient(ellipse at center, black 20%, transparent 75%);
-        }
-
-        /* Noise */
-        .bg-noise {
-            position: fixed;
-            inset: 0;
-            z-index: -1;
-            pointer-events: none;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' /%3E%3C/svg%3E");
+            background: radial-gradient(ellipse at center, transparent 30%, rgba(10, 5, 6, 0.7) 100%);
         }
 
         /* ===== Screens ===== */
@@ -139,72 +124,107 @@
             justify-content: center;
             padding: 20px;
             overflow-y: auto;
-            z-index: 1;
+            z-index: 2;
         }
 
         .screen.active {
             display: flex;
-            animation: screenIn 0.5s ease;
+            animation: screenIn 0.6s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         @keyframes screenIn {
-            from { opacity: 0; transform: scale(0.96); }
-            to { opacity: 1; transform: scale(1); }
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
         }
 
-        /* ===== Splash Screen ===== */
+        /* ===== Language Switcher ===== */
+        .lang-switch {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            gap: 4px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            padding: 4px;
+            border-radius: 12px;
+            z-index: 100;
+        }
+
+        .lang-btn {
+            padding: 6px 14px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--grad-gold);
+            color: var(--bg-deep);
+            box-shadow: 0 0 20px rgba(232, 184, 74, 0.4);
+        }
+
+        html[dir="ltr"] .lang-switch { left: auto; right: 20px; }
+
+        /* ===== SPLASH SCREEN ===== */
         .splash-content {
             text-align: center;
             max-width: 500px;
             width: 100%;
+            position: relative;
         }
 
-        .splash-logo {
-            font-size: 100px;
+        .splash-door-icon {
+            font-size: 90px;
             margin-bottom: 20px;
-            filter: drop-shadow(0 0 50px rgba(0, 240, 255, 0.8));
-            animation: doorIdle 3s ease-in-out infinite;
+            display: inline-block;
+            filter: drop-shadow(0 0 40px rgba(232, 184, 74, 0.7));
+            animation: doorPulse 3s ease-in-out infinite;
+            position: relative;
         }
 
-        @keyframes doorIdle {
-            0%, 100% { transform: translateY(0) rotateY(0deg); }
-            50% { transform: translateY(-15px) rotateY(15deg); }
+        @keyframes doorPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.08); }
         }
 
         .splash-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 48px;
+            font-family: 'Cinzel', serif;
+            font-size: 56px;
             font-weight: 900;
-            letter-spacing: 4px;
-            margin-bottom: 10px;
-            background: var(--grad-primary);
-            background-size: 200% 200%;
+            letter-spacing: 6px;
+            margin-bottom: 8px;
+            background: var(--grad-gold);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: gradientShift 3s ease infinite;
-            text-shadow: 0 0 40px rgba(0, 240, 255, 0.5);
+            text-shadow: 0 0 60px rgba(232, 184, 74, 0.3);
+            line-height: 1.1;
         }
 
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-        }
-
-        .splash-sub {
-            font-size: 16px;
-            color: var(--text-secondary);
-            margin-bottom: 40px;
-            letter-spacing: 2px;
+        .splash-title-sub {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            letter-spacing: 8px;
+            color: var(--gold-dim);
+            margin-bottom: 50px;
         }
 
         .loading-bar {
             width: 100%;
-            max-width: 300px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.1);
+            max-width: 320px;
+            height: 3px;
+            background: rgba(232, 184, 74, 0.1);
             border-radius: 2px;
-            margin: 0 auto 20px;
+            margin: 0 auto 15px;
             overflow: hidden;
             position: relative;
         }
@@ -212,52 +232,64 @@
         .loading-fill {
             height: 100%;
             width: 0%;
-            background: var(--grad-primary);
+            background: var(--grad-gold);
             border-radius: 2px;
             transition: width 0.3s ease;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+            box-shadow: 0 0 15px var(--gold);
         }
 
         .loading-text {
-            font-size: 12px;
-            color: var(--text-dim);
-            letter-spacing: 3px;
             font-family: 'Orbitron', monospace;
+            font-size: 10px;
+            color: var(--gold-dim);
+            letter-spacing: 4px;
         }
 
-        /* ===== Menu Screen ===== */
+        /* ===== MENU SCREEN ===== */
         .menu-content {
             text-align: center;
-            max-width: 500px;
+            max-width: 480px;
             width: 100%;
         }
 
+        .menu-crest {
+            font-size: 60px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 30px rgba(232, 184, 74, 0.6));
+            animation: crestFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes crestFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-8px) rotate(3deg); }
+        }
+
         .menu-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 42px;
+            font-family: 'Cinzel', serif;
+            font-size: 46px;
             font-weight: 900;
-            letter-spacing: 3px;
-            margin-bottom: 8px;
-            background: var(--grad-primary);
-            background-size: 200% 200%;
+            letter-spacing: 5px;
+            margin-bottom: 4px;
+            background: var(--grad-gold);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            animation: gradientShift 3s ease infinite;
+            text-shadow: 0 0 50px rgba(232, 184, 74, 0.3);
         }
 
         .menu-sub {
-            font-size: 14px;
-            color: var(--text-secondary);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            letter-spacing: 6px;
+            color: var(--gold-dim);
             margin-bottom: 40px;
-            letter-spacing: 2px;
         }
 
         .menu-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-bottom: 32px;
+            gap: 10px;
+            margin-bottom: 28px;
         }
 
         .menu-stat {
@@ -265,23 +297,40 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 16px 12px;
+            border-radius: 14px;
+            padding: 16px 8px;
             text-align: center;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-stat::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: var(--grad-gold);
+            opacity: 0.4;
         }
 
         .menu-stat:hover {
-            border-color: var(--neon-cyan);
+            border-color: var(--border-strong);
             transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.15);
+            box-shadow: 0 15px 40px rgba(232, 184, 74, 0.1);
+        }
+
+        .menu-stat-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+            opacity: 0.8;
         }
 
         .menu-stat-value {
             font-family: 'Orbitron', sans-serif;
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 900;
-            background: var(--grad-primary);
+            background: var(--grad-gold);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -290,46 +339,46 @@
         }
 
         .menu-stat-label {
-            font-size: 11px;
+            font-size: 9px;
             color: var(--text-dim);
             letter-spacing: 1.5px;
             text-transform: uppercase;
+            font-weight: 700;
         }
 
         .menu-buttons {
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 10px;
         }
 
         .menu-btn {
-            padding: 18px 32px;
-            background: var(--grad-primary);
-            color: white;
+            padding: 16px 28px;
+            background: var(--grad-gold);
+            color: var(--bg-deep);
             border: none;
-            border-radius: 16px;
+            border-radius: 14px;
             font-family: 'Vazirmatn', sans-serif;
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 800;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.25);
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 8px 25px rgba(232, 184, 74, 0.25);
         }
 
         .menu-btn::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
+            top: 0; left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             transition: left 0.6s;
         }
 
@@ -339,7 +388,7 @@
 
         .menu-btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 40px rgba(0, 240, 255, 0.4);
+            box-shadow: 0 15px 40px rgba(232, 184, 74, 0.4);
         }
 
         .menu-btn.secondary {
@@ -347,66 +396,86 @@
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border-strong);
+            color: var(--gold);
             box-shadow: none;
-            color: var(--text-primary);
         }
 
         .menu-btn.secondary:hover {
-            border-color: var(--neon-cyan);
-            color: var(--neon-cyan);
-            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.15);
+            border-color: var(--gold);
+            background: rgba(232, 184, 74, 0.08);
+            color: var(--gold-bright);
+            box-shadow: 0 10px 30px rgba(232, 184, 74, 0.15);
         }
 
         .menu-btn.danger {
-            background: linear-gradient(135deg, #ff3860, #ff2e97);
+            background: linear-gradient(135deg, #8b3a1a, #6b0f0f);
+            color: var(--cream);
         }
 
-        /* ===== Level Select ===== */
+        /* ===== LEVEL SELECT ===== */
         .level-select-content {
-            max-width: 800px;
+            max-width: 720px;
             width: 100%;
             text-align: center;
         }
 
         .level-select-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 28px;
+            font-family: 'Cinzel', serif;
+            font-size: 26px;
             font-weight: 900;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
+            margin-bottom: 6px;
+            color: var(--gold);
+            text-shadow: 0 0 30px rgba(232, 184, 74, 0.4);
+        }
+
+        .level-select-sub {
+            font-size: 12px;
+            color: var(--text-dim);
+            letter-spacing: 2px;
             margin-bottom: 25px;
-            color: var(--neon-cyan);
         }
 
         .level-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
-            gap: 12px;
-            margin-bottom: 30px;
-            max-height: 60vh;
+            grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
+            gap: 10px;
+            margin-bottom: 25px;
+            max-height: 58vh;
             overflow-y: auto;
-            padding: 10px;
+            padding: 15px;
             background: var(--bg-glass);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            border-radius: 20px;
+            border-radius: 18px;
+            position: relative;
         }
 
-        .level-grid::-webkit-scrollbar { width: 6px; }
+        .level-grid::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: var(--grad-gold);
+            opacity: 0.4;
+        }
+
+        .level-grid::-webkit-scrollbar { width: 4px; }
         .level-grid::-webkit-scrollbar-thumb {
-            background: rgba(0, 240, 255, 0.3);
-            border-radius: 3px;
+            background: var(--gold-dim);
+            border-radius: 2px;
         }
 
         .level-btn {
             aspect-ratio: 1;
-            background: var(--bg-card);
-            border: 2px solid var(--border);
+            background: rgba(232, 184, 74, 0.03);
+            border: 1.5px solid var(--border);
             border-radius: 12px;
             font-family: 'Orbitron', sans-serif;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
-            color: var(--text-primary);
+            color: var(--text-secondary);
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
@@ -419,43 +488,43 @@
         }
 
         .level-btn.completed {
-            background: linear-gradient(135deg, rgba(6, 255, 165, 0.15), rgba(0, 240, 255, 0.15));
-            border-color: rgba(6, 255, 165, 0.5);
-            color: var(--neon-green);
+            background: linear-gradient(135deg, rgba(232, 184, 74, 0.15), rgba(184, 115, 51, 0.1));
+            border-color: var(--gold-dim);
+            color: var(--gold-bright);
         }
 
         .level-btn.completed::after {
             content: '✓';
             position: absolute;
-            top: 2px;
-            right: 4px;
+            top: 3px;
+            right: 5px;
             font-size: 10px;
-            color: var(--neon-green);
+            color: var(--gold-bright);
+            font-weight: 900;
         }
 
         .level-btn.current {
-            background: linear-gradient(135deg, rgba(0, 240, 255, 0.2), rgba(181, 55, 242, 0.2));
-            border-color: var(--neon-cyan);
-            color: var(--neon-cyan);
+            background: linear-gradient(135deg, rgba(232, 184, 74, 0.25), rgba(184, 115, 51, 0.2));
+            border-color: var(--gold);
+            color: var(--gold-bright);
             animation: levelPulse 2s infinite;
         }
 
         @keyframes levelPulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(0, 240, 255, 0.4); }
-            50% { box-shadow: 0 0 0 10px rgba(0, 240, 255, 0); }
+            0%, 100% { box-shadow: 0 0 0 0 rgba(232, 184, 74, 0.5); }
+            50% { box-shadow: 0 0 0 10px rgba(232, 184, 74, 0); }
         }
 
         .level-btn.locked {
-            opacity: 0.3;
+            opacity: 0.25;
             cursor: not-allowed;
-            color: var(--text-dim);
         }
 
         .level-btn.locked::before {
             content: '🔒';
             position: absolute;
-            font-size: 20px;
-            opacity: 0.5;
+            font-size: 18px;
+            opacity: 0.6;
         }
 
         .level-btn.locked .level-num {
@@ -464,46 +533,60 @@
 
         .level-btn:not(.locked):hover {
             transform: scale(1.08);
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(232, 184, 74, 0.3);
         }
 
         .level-num {
-            font-size: 18px;
+            font-size: 16px;
             line-height: 1;
         }
 
         .level-stars {
             display: flex;
             gap: 1px;
-            font-size: 8px;
+            font-size: 7px;
+            height: 10px;
         }
 
-        /* ===== Game Screen ===== */
+        /* ===== GAME SCREEN ===== */
         .game-content {
             max-width: 500px;
             width: 100%;
-            text-align: center;
+            position: relative;
         }
 
         .game-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            padding: 12px 18px;
+            margin-bottom: 20px;
+            padding: 10px 16px;
             background: var(--bg-glass);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            border-radius: 16px;
-            gap: 10px;
+            border-radius: 14px;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .game-header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: var(--grad-gold);
+            opacity: 0.5;
         }
 
         .game-info {
             display: flex;
-            gap: 18px;
+            gap: 16px;
             align-items: center;
+            flex: 1;
+            justify-content: center;
         }
 
         .game-info-item {
@@ -512,197 +595,282 @@
 
         .game-info-value {
             font-family: 'Orbitron', sans-serif;
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 900;
-            color: var(--neon-cyan);
+            color: var(--gold-bright);
             line-height: 1;
         }
 
         .game-info-label {
-            font-size: 10px;
+            font-size: 8px;
             color: var(--text-dim);
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            margin-top: 2px;
+            margin-top: 3px;
+            font-weight: 700;
         }
 
-        .game-back-btn {
-            width: 40px;
-            height: 40px;
+        .icon-btn {
+            width: 36px;
+            height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: var(--bg-card);
+            background: rgba(232, 184, 74, 0.05);
             border: 1px solid var(--border);
             border-radius: 10px;
             cursor: pointer;
-            color: var(--text-primary);
-            font-size: 18px;
+            color: var(--gold);
+            font-size: 16px;
             transition: all 0.3s;
             font-family: inherit;
+            flex-shrink: 0;
         }
 
-        .game-back-btn:hover {
-            border-color: var(--neon-cyan);
-            color: var(--neon-cyan);
+        .icon-btn:hover {
+            border-color: var(--gold);
+            background: rgba(232, 184, 74, 0.15);
+            color: var(--gold-bright);
+            box-shadow: 0 0 20px rgba(232, 184, 74, 0.2);
         }
 
+        /* ===== DOOR ===== */
         .door-stage {
             position: relative;
-            height: 340px;
-            margin-bottom: 25px;
+            height: 360px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
-            perspective: 1200px;
+            perspective: 1400px;
+            z-index: 5;
         }
 
-        .door {
+        .door-frame {
             position: relative;
-            width: 200px;
-            height: 320px;
-            background: linear-gradient(145deg, #1a1a3a, #0a0a1a);
-            border: 3px solid rgba(0, 240, 255, 0.3);
-            border-radius: 100px 100px 8px 8px;
+            width: 220px;
+            height: 340px;
+            background: linear-gradient(145deg, #1e1210, #0a0506);
+            border: 3px solid var(--gold-dim);
+            border-radius: 110px 110px 8px 8px;
             box-shadow:
-                0 0 40px rgba(0, 240, 255, 0.2),
-                inset 0 0 30px rgba(0, 240, 255, 0.05);
+                0 0 60px rgba(232, 184, 74, 0.15),
+                inset 0 0 40px rgba(0, 0, 0, 0.8),
+                0 20px 50px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+        }
+
+        .door-frame::before {
+            content: '';
+            position: absolute;
+            inset: 12px;
+            border: 1px solid rgba(232, 184, 74, 0.25);
+            border-radius: 100px 100px 4px 4px;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .door-frame::after {
+            content: '';
+            position: absolute;
+            inset: 22px;
+            border: 1px solid rgba(232, 184, 74, 0.1);
+            border-radius: 90px 90px 4px 4px;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .door-panel {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse at 50% 20%, rgba(232, 184, 74, 0.08) 0%, transparent 60%),
+                linear-gradient(145deg, #1e1210, #0a0506);
             transform-origin: left center;
-            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            transition: transform 1s cubic-bezier(0.7, 0, 0.3, 1);
             cursor: pointer;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             gap: 15px;
-            padding: 20px;
-            overflow: hidden;
+            padding: 30px 20px;
+            z-index: 3;
+            backface-visibility: hidden;
         }
 
-        .door::before {
-            content: '';
-            position: absolute;
-            inset: 15px;
-            border: 2px solid rgba(0, 240, 255, 0.15);
-            border-radius: 80px 80px 4px 4px;
+        .door-panel.opening {
+            transform: rotateY(-135deg);
+        }
+
+        .door-panel.opened {
+            transform: rotateY(-135deg);
             pointer-events: none;
         }
 
-        .door::after {
-            content: '';
+        /* Handle - Actual clickable element */
+        .door-handle {
             position: absolute;
             top: 50%;
-            right: 15px;
-            width: 12px;
-            height: 12px;
-            background: var(--neon-yellow);
+            right: 18px;
+            width: 22px;
+            height: 22px;
+            background: radial-gradient(circle at 30% 30%, var(--gold-bright), var(--gold-dim));
             border-radius: 50%;
-            box-shadow: 0 0 15px var(--neon-yellow);
+            box-shadow: 
+                0 0 20px var(--gold),
+                inset -2px -2px 4px rgba(0, 0, 0, 0.5),
+                inset 2px 2px 4px rgba(255, 255, 255, 0.3);
             transform: translateY(-50%);
-            animation: handlePulse 2s infinite;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.2s;
         }
 
-        @keyframes handlePulse {
-            0%, 100% { box-shadow: 0 0 15px var(--neon-yellow); }
-            50% { box-shadow: 0 0 25px var(--neon-yellow), 0 0 40px rgba(255, 214, 10, 0.5); }
-        }
-
-        .door-number {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 60px;
-            font-weight: 900;
-            background: var(--grad-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: 0 0 40px rgba(0, 240, 255, 0.4);
-            line-height: 1;
-        }
-
-        .door-hint {
-            font-size: 12px;
-            color: var(--text-secondary);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .door.opening {
-            transform: rotateY(-130deg);
-        }
-
-        .door.opened {
-            transform: rotateY(-130deg);
-            pointer-events: none;
-        }
-
-        .door-glow {
+        .door-handle::after {
+            content: '';
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 250px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(0, 240, 255, 0.4), transparent 70%);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s;
+            width: 8px;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 50%;
+            box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.8);
         }
 
-        .door.opening + .door-glow,
-        .door.opened + .door-glow {
+        .door-handle:hover {
+            transform: translateY(-50%) scale(1.15);
+            box-shadow: 
+                0 0 30px var(--gold-bright),
+                inset -2px -2px 4px rgba(0, 0, 0, 0.5),
+                inset 2px 2px 4px rgba(255, 255, 255, 0.3);
+        }
+
+        .door-handle.hidden {
+            display: none;
+        }
+
+        .door-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 68px;
+            font-weight: 900;
+            background: var(--grad-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 60px rgba(232, 184, 74, 0.5);
+            line-height: 1;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+        }
+
+        .door-rune {
+            font-family: 'Cinzel', serif;
+            font-size: 11px;
+            color: var(--gold-dim);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            opacity: 0.7;
+        }
+
+        /* Ornamental corners */
+        .door-corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gold-dim);
+            opacity: 0.4;
+        }
+
+        .door-corner.tl { top: 30px; left: 30px; border-right: none; border-bottom: none; }
+        .door-corner.tr { top: 30px; right: 30px; border-left: none; border-bottom: none; }
+        .door-corner.bl { bottom: 30px; left: 30px; border-right: none; border-top: none; }
+        .door-corner.br { bottom: 30px; right: 30px; border-left: none; border-top: none; }
+
+        /* Behind door - light */
+        .door-behind {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(232, 184, 74, 0.6), transparent 70%);
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+            transition: opacity 0.6s;
+        }
+
+        .door-panel.opening ~ .door-behind,
+        .door-panel.opened ~ .door-behind {
             opacity: 1;
         }
 
-        /* ===== Puzzle Area ===== */
+        /* ===== PUZZLE AREA ===== */
         .puzzle-area {
             background: var(--bg-glass);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--border);
-            border-radius: 20px;
+            border-radius: 18px;
             padding: 20px;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             min-height: 100px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 15px;
+            gap: 14px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .puzzle-area::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: var(--grad-gold);
+            opacity: 0.4;
         }
 
         .puzzle-question {
             font-size: 15px;
             color: var(--text-primary);
             text-align: center;
-            line-height: 1.6;
+            line-height: 1.7;
+            font-weight: 500;
         }
 
         .puzzle-input {
             width: 100%;
-            max-width: 260px;
+            max-width: 280px;
             padding: 14px 18px;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             border: 2px solid var(--border-strong);
             border-radius: 12px;
-            color: var(--text-primary);
+            color: var(--cream);
             font-family: 'Orbitron', monospace;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 700;
             text-align: center;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             outline: none;
             transition: all 0.3s;
         }
 
         .puzzle-input:focus {
-            border-color: var(--neon-cyan);
-            box-shadow: 0 0 0 4px rgba(0, 240, 255, 0.15), 0 0 30px rgba(0, 240, 255, 0.3);
+            border-color: var(--gold);
+            box-shadow: 0 0 0 4px rgba(232, 184, 74, 0.15), 0 0 30px rgba(232, 184, 74, 0.2);
+        }
+
+        .puzzle-input::placeholder {
+            color: var(--text-dim);
+            letter-spacing: normal;
         }
 
         .puzzle-btn {
-            padding: 12px 28px;
-            background: var(--grad-primary);
-            color: white;
+            padding: 12px 30px;
+            background: var(--grad-gold);
+            color: var(--bg-deep);
             border: none;
             border-radius: 12px;
             font-family: inherit;
@@ -710,117 +878,299 @@
             font-weight: 800;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 5px 20px rgba(0, 240, 255, 0.3);
+            box-shadow: 0 5px 20px rgba(232, 184, 74, 0.3);
         }
 
         .puzzle-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.5);
+            box-shadow: 0 10px 30px rgba(232, 184, 74, 0.5);
         }
 
-        .puzzle-hint-box {
-            padding: 10px 16px;
-            background: rgba(255, 214, 10, 0.08);
-            border: 1px solid rgba(255, 214, 10, 0.3);
-            border-radius: 10px;
-            font-size: 13px;
-            color: var(--neon-yellow);
-            text-align: center;
-            max-width: 100%;
-        }
-
-        /* Puzzle colors */
-        .color-grid {
+        /* ===== Colored Lamps ===== */
+        .lamps-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            max-width: 280px;
+            gap: 12px;
+            max-width: 300px;
             width: 100%;
         }
 
-        .color-btn {
+        .lamp {
             aspect-ratio: 1;
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.15);
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
             position: relative;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
         }
 
-        .color-btn:hover {
+        .lamp:hover {
             transform: scale(1.08);
-            border-color: white;
+            border-color: rgba(255, 255, 255, 0.4);
         }
 
-        .color-btn.active {
-            border-color: white;
-            box-shadow: 0 0 20px currentColor;
+        .lamp.blinking {
+            animation: lampBlink 1.2s infinite;
         }
 
-        .seq-display {
-            font-family: 'Orbitron', monospace;
-            font-size: 22px;
-            font-weight: 900;
-            letter-spacing: 6px;
-            color: var(--neon-cyan);
+        @keyframes lampBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .lamp.lit {
+            border-color: var(--gold-bright);
+            box-shadow: 0 0 30px currentColor, inset 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+
+        /* ===== Hold Button ===== */
+        .hold-btn {
+            padding: 24px 50px;
+            background: var(--grad-gold);
+            color: var(--bg-deep);
+            border: none;
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 17px;
+            font-weight: 800;
+            cursor: pointer;
+            user-select: none;
+            -webkit-user-select: none;
+            transition: all 0.2s;
+            box-shadow: 0 5px 20px rgba(232, 184, 74, 0.3);
+            touch-action: none;
+        }
+
+        .hold-btn:active {
+            transform: scale(0.97);
+            box-shadow: 0 0 40px rgba(232, 184, 74, 0.6);
+        }
+
+        .hold-progress {
+            width: 100%;
+            max-width: 280px;
+            height: 8px;
+            background: rgba(232, 184, 74, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .hold-progress-fill {
+            height: 100%;
+            width: 0%;
+            background: var(--grad-gold);
+            border-radius: 4px;
+            transition: width 0.05s linear;
+            box-shadow: 0 0 15px var(--gold);
+        }
+
+        /* ===== Timer Button ===== */
+        .timer-btn {
+            padding: 20px 40px;
+            background: linear-gradient(135deg, #8b3a1a, #6b0f0f);
+            color: var(--cream);
+            border: 2px solid var(--rust);
+            border-radius: 14px;
+            font-family: inherit;
+            font-size: 17px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.2s;
+            animation: timerPulse 0.5s infinite;
+        }
+
+        @keyframes timerPulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(139, 58, 26, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(139, 58, 26, 0.9); }
+        }
+
+        .timer-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* ===== Animated Hint ===== */
+        .hint-text {
+            font-size: 13px;
+            color: var(--gold-dim);
             text-align: center;
-            min-height: 30px;
+            font-style: italic;
+            opacity: 0.8;
+            max-width: 100%;
         }
 
-        /* ===== Level Complete ===== */
+        /* ===== Hidden Key ===== */
+        .hidden-key {
+            position: absolute;
+            font-size: 24px;
+            cursor: pointer;
+            opacity: 0.15;
+            transition: all 0.3s;
+            user-select: none;
+            z-index: 8;
+        }
+
+        .hidden-key:hover {
+            opacity: 0.8;
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 15px var(--gold-bright));
+        }
+
+        /* ===== COMPLETE SCREEN ===== */
         .complete-content {
             text-align: center;
             max-width: 400px;
             width: 100%;
         }
 
-        .complete-icon {
+        .complete-seal {
             font-size: 90px;
             margin-bottom: 20px;
-            animation: completeBounce 1s ease-in-out infinite;
-            filter: drop-shadow(0 0 40px rgba(6, 255, 165, 0.6));
+            animation: sealSpin 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            filter: drop-shadow(0 0 50px rgba(232, 184, 74, 0.7));
         }
 
-        @keyframes completeBounce {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-20px) scale(1.1); }
+        @keyframes sealSpin {
+            0%, 100% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.1); }
         }
 
         .complete-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 32px;
+            font-family: 'Cinzel', serif;
+            font-size: 30px;
             font-weight: 900;
-            letter-spacing: 3px;
-            margin-bottom: 10px;
-            color: var(--neon-green);
+            letter-spacing: 4px;
+            margin-bottom: 8px;
+            background: var(--grad-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 40px rgba(232, 184, 74, 0.4);
+        }
+
+        .complete-sub {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-top: 8px;
+            margin-bottom: 25px;
         }
 
         .complete-stats {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin: 25px 0;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
         }
 
         .complete-stat {
-            text-align: center;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .complete-stat::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: var(--grad-gold);
+            opacity: 0.5;
         }
 
         .complete-stat-value {
             font-family: 'Orbitron', sans-serif;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 900;
-            background: var(--grad-primary);
+            background: var(--grad-gold);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            line-height: 1;
         }
 
         .complete-stat-label {
-            font-size: 11px;
+            font-size: 9px;
             color: var(--text-dim);
             letter-spacing: 1.5px;
             text-transform: uppercase;
+            margin-top: 6px;
+            font-weight: 700;
+        }
+
+        /* ===== ACHIEVEMENTS ===== */
+        .ach-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 12px;
+            margin-bottom: 25px;
+            max-height: 58vh;
+            overflow-y: auto;
+            padding: 15px;
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+        }
+
+        .ach-grid::-webkit-scrollbar { width: 4px; }
+        .ach-grid::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 2px; }
+
+        .ach-card {
+            background: rgba(232, 184, 74, 0.03);
+            border: 1.5px solid var(--border);
+            border-radius: 14px;
+            padding: 16px 12px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ach-card.unlocked {
+            background: linear-gradient(135deg, rgba(232, 184, 74, 0.15), rgba(184, 115, 51, 0.1));
+            border-color: var(--gold-dim);
+        }
+
+        .ach-card.unlocked::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: var(--grad-gold);
+        }
+
+        .ach-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+            display: inline-block;
+        }
+
+        .ach-card:not(.unlocked) .ach-icon {
+            filter: grayscale(1);
+            opacity: 0.3;
+        }
+
+        .ach-name {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--gold-bright);
+            margin-bottom: 6px;
+        }
+
+        .ach-card:not(.unlocked) .ach-name {
+            color: var(--text-dim);
+        }
+
+        .ach-desc {
+            font-size: 11px;
+            color: var(--text-secondary);
+            line-height: 1.5;
         }
 
         /* ===== Toast ===== */
@@ -834,6 +1184,7 @@
             flex-direction: column;
             gap: 10px;
             pointer-events: none;
+            max-width: 90vw;
         }
 
         .toast {
@@ -845,23 +1196,24 @@
             border-radius: 14px;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
             font-size: 14px;
             font-weight: 700;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
             pointer-events: auto;
             animation: toastIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             min-width: 260px;
-            max-width: 90vw;
+            color: var(--cream);
         }
 
-        .toast.success { border-color: rgba(6, 255, 165, 0.4); }
-        .toast.error { border-color: rgba(255, 56, 96, 0.4); }
-        .toast.info { border-color: rgba(0, 240, 255, 0.4); }
+        .toast.success { border-color: rgba(232, 184, 74, 0.5); box-shadow: 0 20px 50px rgba(232, 184, 74, 0.2); }
+        .toast.error { border-color: rgba(139, 58, 26, 0.6); }
+        .toast.info { border-color: var(--border-strong); }
         .toast.achievement {
             background: var(--grad-gold);
-            color: #0a0a1a;
+            color: var(--bg-deep);
             border-color: transparent;
+            box-shadow: 0 20px 50px rgba(232, 184, 74, 0.5);
         }
 
         @keyframes toastIn {
@@ -869,56 +1221,68 @@
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
-        .toast.leaving {
-            animation: toastOut 0.3s ease forwards;
+        .toast.leaving { animation: toastOut 0.3s ease forwards; }
+        @keyframes toastOut { to { opacity: 0; transform: translateY(-20px) scale(0.9); } }
+
+        /* ===== Animations ===== */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-8px); }
+            80% { transform: translateX(8px); }
         }
 
-        @keyframes toastOut {
-            to { opacity: 0; transform: translateY(-20px) scale(0.9); }
-        }
+        .shake { animation: shake 0.5s; }
 
         /* ===== Responsive ===== */
         @media (max-width: 600px) {
-            .splash-title { font-size: 32px; letter-spacing: 2px; }
-            .splash-logo { font-size: 70px; }
-            .menu-title { font-size: 28px; letter-spacing: 2px; }
-            .menu-stats { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-            .menu-stat { padding: 12px 8px; }
+            .splash-title { font-size: 38px; letter-spacing: 4px; }
+            .splash-door-icon { font-size: 70px; }
+            .menu-title { font-size: 34px; letter-spacing: 3px; }
+            .menu-crest { font-size: 48px; }
+            .menu-stats { gap: 8px; }
+            .menu-stat { padding: 12px 6px; }
             .menu-stat-value { font-size: 20px; }
-            .menu-stat-label { font-size: 9px; letter-spacing: 1px; }
-            .door { width: 160px; height: 260px; }
-            .door-number { font-size: 48px; }
-            .door-stage { height: 280px; }
-            .level-select-title { font-size: 22px; }
-            .level-grid { grid-template-columns: repeat(auto-fill, minmax(55px, 1fr)); gap: 8px; }
+            .menu-stat-label { font-size: 8px; letter-spacing: 1px; }
+            .door-frame { width: 180px; height: 280px; }
+            .door-number { font-size: 52px; }
+            .door-stage { height: 300px; }
+            .door-handle { width: 18px; height: 18px; right: 14px; }
+            .level-select-title { font-size: 20px; letter-spacing: 3px; }
+            .level-grid { grid-template-columns: repeat(auto-fill, minmax(52px, 1fr)); gap: 8px; padding: 12px; }
             .level-btn { font-size: 14px; }
             .level-num { font-size: 14px; }
-            .complete-icon { font-size: 70px; }
-            .complete-title { font-size: 24px; }
-            .complete-stat-value { font-size: 20px; }
+            .complete-seal { font-size: 70px; }
+            .complete-title { font-size: 22px; }
+            .complete-stat-value { font-size: 18px; }
             .puzzle-question { font-size: 14px; }
-            .game-info-value { font-size: 16px; }
+            .game-info-value { font-size: 15px; }
+            .game-info-label { font-size: 7px; }
+            .lamps-grid { max-width: 260px; gap: 8px; }
         }
 
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb {
-            background: rgba(0, 240, 255, 0.3);
+            background: var(--gold-dim);
             border-radius: 3px;
         }
-        ::-webkit-scrollbar-thumb:hover { background: var(--neon-cyan); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold); }
     </style>
 </head>
 <body>
 
     <!-- Background -->
-    <div class="bg-fx">
-        <div class="bg-orb orb-1"></div>
-        <div class="bg-orb orb-2"></div>
-        <div class="bg-orb orb-3"></div>
+    <div class="bg-vault"></div>
+    <div class="bg-stone"></div>
+    <div class="vignette"></div>
+
+    <!-- Language Switcher -->
+    <div class="lang-switch">
+        <button class="lang-btn active" onclick="setLang('fa')" id="btnFa">🇮🇷 فارسی</button>
+        <button class="lang-btn" onclick="setLang('en')" id="btnEn">🇬🇧 EN</button>
     </div>
-    <div class="bg-grid"></div>
-    <div class="bg-noise"></div>
 
     <!-- Toast -->
     <div class="toast-container" id="toastContainer"></div>
@@ -928,9 +1292,9 @@
          ============================================ -->
     <div class="screen active" id="screen-splash">
         <div class="splash-content">
-            <div class="splash-logo">🚪</div>
+            <div class="splash-door-icon">🚪</div>
             <h1 class="splash-title">100 DOORS</h1>
-            <p class="splash-sub">THE INTERNET PUZZLE</p>
+            <p class="splash-title-sub">ANCIENT VAULT</p>
             <div class="loading-bar">
                 <div class="loading-fill" id="loadingFill"></div>
             </div>
@@ -943,44 +1307,48 @@
          ============================================ -->
     <div class="screen" id="screen-menu">
         <div class="menu-content">
+            <div class="menu-crest">⚱️</div>
             <h1 class="menu-title">100 DOORS</h1>
-            <p class="menu-sub">THE INTERNET PUZZLE</p>
+            <p class="menu-sub">ANCIENT VAULT</p>
 
             <div class="menu-stats">
                 <div class="menu-stat">
+                    <div class="menu-stat-icon">🔓</div>
                     <div class="menu-stat-value" id="statCompleted">0</div>
-                    <div class="menu-stat-label">COMPLETED</div>
+                    <div class="menu-stat-label" id="lblCompleted">COMPLETED</div>
                 </div>
                 <div class="menu-stat">
+                    <div class="menu-stat-icon">💎</div>
                     <div class="menu-stat-value" id="statScore">0</div>
-                    <div class="menu-stat-label">SCORE</div>
+                    <div class="menu-stat-label" id="lblScore">SCORE</div>
                 </div>
                 <div class="menu-stat">
+                    <div class="menu-stat-icon">⭐</div>
                     <div class="menu-stat-value" id="statStars">0</div>
-                    <div class="menu-stat-label">STARS</div>
+                    <div class="menu-stat-label" id="lblStars">STARS</div>
                 </div>
             </div>
 
             <div class="menu-buttons">
                 <button class="menu-btn" onclick="startGame()">
                     <span>▶</span>
-                    <span id="btnStartText">شروع بازی</span>
+                    <span id="btnStartText">شروع سفر</span>
                 </button>
                 <button class="menu-btn secondary" onclick="showLevels()">
                     <span>🗺️</span>
-                    <span>انتخاب مرحله</span>
+                    <span id="btnLevelsText">نقشه گاوصندوق</span>
                 </button>
                 <button class="menu-btn secondary" onclick="showAchievements()">
                     <span>🏆</span>
-                    <span>دستاوردها</span>
+                    <span id="btnAchText">دستاوردها</span>
                 </button>
                 <button class="menu-btn secondary" onclick="shareScore()">
                     <span>📤</span>
-                    <span>اشتراک‌گذاری</span>
+                    <span id="btnShareText">اشتراک‌گذاری</span>
                 </button>
                 <button class="menu-btn danger" onclick="resetProgress()">
                     <span>🔄</span>
-                    <span>شروع مجدد</span>
+                    <span id="btnResetText">شروع مجدد</span>
                 </button>
             </div>
         </div>
@@ -991,11 +1359,12 @@
          ============================================ -->
     <div class="screen" id="screen-levels">
         <div class="level-select-content">
-            <h1 class="level-select-title">SELECT LEVEL</h1>
+            <h1 class="level-select-title" id="levelSelectTitle">نقشه گاوصندوق</h1>
+            <p class="level-select-sub" id="levelSelectSub">یه در رو انتخاب کن</p>
             <div class="level-grid" id="levelGrid"></div>
-            <button class="menu-btn secondary" onclick="showMenu()" style="max-width: 300px; margin: 0 auto;">
+            <button class="menu-btn secondary" onclick="showMenu()" style="max-width: 280px; margin: 0 auto;">
                 <span>←</span>
-                <span>بازگشت</span>
+                <span id="btnBackText">بازگشت</span>
             </button>
         </div>
     </div>
@@ -1006,72 +1375,77 @@
     <div class="screen" id="screen-game">
         <div class="game-content">
             <div class="game-header">
-                <button class="game-back-btn" onclick="backToMenu()">←</button>
+                <button class="icon-btn" onclick="backToMenu()">←</button>
                 <div class="game-info">
                     <div class="game-info-item">
                         <div class="game-info-value" id="gameLevelNum">1</div>
-                        <div class="game-info-label">LEVEL</div>
+                        <div class="game-info-label" id="lblLevel">LEVEL</div>
                     </div>
                     <div class="game-info-item">
                         <div class="game-info-value" id="gameTimer">00:00</div>
-                        <div class="game-info-label">TIME</div>
+                        <div class="game-info-label" id="lblTime">TIME</div>
                     </div>
                     <div class="game-info-item">
                         <div class="game-info-value" id="gameScore">0</div>
-                        <div class="game-info-label">SCORE</div>
+                        <div class="game-info-label" id="lblPts">PTS</div>
                     </div>
                 </div>
-                <button class="game-back-btn" onclick="useHint()">💡</button>
+                <button class="icon-btn" onclick="useHint()">💡</button>
             </div>
 
             <div class="door-stage">
-                <div class="door" id="door" onclick="handleDoorClick()">
-                    <div class="door-number" id="doorNumber">1</div>
-                    <div class="door-hint" id="doorHint">TAP TO OPEN</div>
+                <div class="door-frame" id="doorFrame">
+                    <div class="door-behind"></div>
+                    <div class="door-panel" id="doorPanel">
+                        <div class="door-corner tl"></div>
+                        <div class="door-corner tr"></div>
+                        <div class="door-corner bl"></div>
+                        <div class="door-corner br"></div>
+                        <div class="door-number" id="doorNumber">1</div>
+                        <div class="door-rune" id="doorRune">TAP TO OPEN</div>
+                    </div>
+                    <div class="door-handle" id="doorHandle" onclick="handleHandleClick(event)"></div>
                 </div>
-                <div class="door-glow"></div>
             </div>
 
-            <div class="puzzle-area" id="puzzleArea">
-                <div class="puzzle-question" id="puzzleQuestion">
-                    روی در کلیک کن تا باز شه
-                </div>
-                <div id="puzzleContent"></div>
+            <div class="puzzle-area">
+                <div class="puzzle-question" id="puzzleQuestion">روی در کلیک کن</div>
+                <div id="puzzleContent" style="width: 100%; display: flex; flex-direction: column; align-items: center; gap: 12px;"></div>
             </div>
         </div>
     </div>
 
     <!-- ============================================
-         SCREEN 5: LEVEL COMPLETE
+         SCREEN 5: COMPLETE
          ============================================ -->
     <div class="screen" id="screen-complete">
         <div class="complete-content">
-            <div class="complete-icon">🎉</div>
-            <h1 class="complete-title">LEVEL COMPLETE</h1>
-            <p style="color: var(--text-secondary); margin-top: 10px;">آفرین! مرحله بعدی باز شد</p>
+            <div class="complete-seal" id="completeSeal">🏛️</div>
+            <h1 class="complete-title" id="completeTitle">در باز شد!</h1>
+            <p class="complete-sub" id="completeSub">راهی مرحله بعد شو...</p>
 
             <div class="complete-stats">
                 <div class="complete-stat">
                     <div class="complete-stat-value" id="completeTime">00:00</div>
-                    <div class="complete-stat-label">TIME</div>
+                    <div class="complete-stat-label" id="lblCompleteTime">TIME</div>
                 </div>
                 <div class="complete-stat">
                     <div class="complete-stat-value" id="completeScore">+0</div>
-                    <div class="complete-stat-label">SCORE</div>
+                    <div class="complete-stat-label" id="lblCompletePts">POINTS</div>
                 </div>
                 <div class="complete-stat">
-                    <div class="complete-stat-value" id="completeStars">⭐⭐⭐</div>
-                    <div class="complete-stat-label">STARS</div>
+                    <div class="complete-stat-value" id="completeStars">⭐</div>
+                    <div class="complete-stat-label" id="lblCompleteStars">STARS</div>
                 </div>
             </div>
 
             <button class="menu-btn" onclick="nextLevel()">
                 <span>▶</span>
-                <span>مرحله بعدی</span>
+                <span id="btnNextText">مرحله بعدی</span>
             </button>
-            <button class="menu-btn secondary" onclick="backToMenu()" style="margin-top: 12px;">
+            <button class="menu-btn secondary" onclick="backToMenu()" style="margin-top: 10px;">
                 <span>🏠</span>
-                <span>منوی اصلی</span>
+                <span id="btnHomeText">منوی اصلی</span>
             </button>
         </div>
     </div>
@@ -1081,28 +1455,181 @@
          ============================================ -->
     <div class="screen" id="screen-achievements">
         <div class="level-select-content">
-            <h1 class="level-select-title">🏆 دستاوردها</h1>
-            <div class="level-grid" id="achievementsGrid" style="grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));"></div>
-            <button class="menu-btn secondary" onclick="showMenu()" style="max-width: 300px; margin: 0 auto;">
+            <h1 class="level-select-title" id="achTitle">دستاوردها</h1>
+            <p class="level-select-sub" id="achSub">هر دستاورد یه نشونه از شجاعتته</p>
+            <div class="ach-grid" id="achGrid"></div>
+            <button class="menu-btn secondary" onclick="showMenu()" style="max-width: 280px; margin: 0 auto;">
                 <span>←</span>
-                <span>بازگشت</span>
+                <span id="btnBackAchText">بازگشت</span>
             </button>
         </div>
     </div>
 
     <script>
-              // ============================================
-        // 100 DOORS — JavaScript کامل
+               // ============================================
+        // 100 DOORS — ANCIENT VAULT — JavaScript
         // ============================================
 
         // ============================================
-        // 1) STATE
+        // 1) LANGUAGE — دو زبانه
+        // ============================================
+        const T = {
+            fa: {
+                // Menu
+                startGame: 'شروع سفر',
+                levelMap: 'نقشه گاوصندوق',
+                achievements: 'دستاوردها',
+                share: 'اشتراک‌گذاری',
+                reset: 'شروع مجدد',
+                completed: 'باز شده',
+                score: 'امتیاز',
+                stars: 'ستاره',
+                
+                // Level Select
+                levelSelectTitle: 'نقشه گاوصندوق',
+                levelSelectSub: 'یه در رو انتخاب کن',
+                back: 'بازگشت',
+                
+                // Game
+                level: 'مرحله',
+                time: 'زمان',
+                pts: 'امتیاز',
+                
+                // Complete
+                completeTitle: 'در باز شد!',
+                completeSub: 'راهی مرحله بعد شو...',
+                nextLevel: 'مرحله بعدی',
+                home: 'منوی اصلی',
+                
+                // Achievements
+                achTitle: 'دستاوردها',
+                achSub: 'هر دستاورد یه نشونه از شجاعتته',
+                
+                // Toast
+                wrongAnswer: 'اشتباه! دوباره تلاش کن',
+                hintUsed: 'راهنما استفاده شد',
+                allDone: 'همه ۱۰۰ در رو باز کردی!',
+                resetDone: 'همه چیز ریست شد',
+                resetConfirm: 'مطمئنی می‌خوای همه پیشرفتت رو پاک کنی؟',
+                copied: 'لینک کپی شد!',
+                achievementUnlocked: 'دستاورد جدید',
+                
+                // Share
+                shareText: (c, s, st) => `🚪 من ${c} از ۱۰۰ مرحله 100 Doors رو باز کردم!\n⭐ ${st} ستاره\n💎 ${s} امتیاز\n\nتو چندتا می‌تونی؟ 🎮`
+            },
+            en: {
+                startGame: 'Start Journey',
+                levelMap: 'Vault Map',
+                achievements: 'Achievements',
+                share: 'Share',
+                reset: 'Reset',
+                completed: 'COMPLETED',
+                score: 'SCORE',
+                stars: 'STARS',
+                
+                levelSelectTitle: 'Vault Map',
+                levelSelectSub: 'Choose a door',
+                back: 'Back',
+                
+                level: 'LEVEL',
+                time: 'TIME',
+                pts: 'PTS',
+                
+                completeTitle: 'Door Opened!',
+                completeSub: 'Path to the next...',
+                nextLevel: 'Next Level',
+                home: 'Main Menu',
+                
+                achTitle: 'Achievements',
+                achSub: 'Each badge is a mark of your courage',
+                
+                wrongAnswer: 'Wrong! Try again',
+                hintUsed: 'Hint used',
+                allDone: 'You opened all 100 doors!',
+                resetDone: 'Everything reset',
+                resetConfirm: 'Are you sure you want to delete all progress?',
+                copied: 'Link copied!',
+                achievementUnlocked: 'New Achievement',
+                
+                shareText: (c, s, st) => `🚪 I opened ${c} of 100 doors in 100 Doors!\n⭐ ${st} stars\n💎 ${s} points\n\nHow many can you open? 🎮`
+            }
+        };
+
+        let currentLang = localStorage.getItem('doors_lang') || 'fa';
+
+        function setLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('doors_lang', lang);
+            applyLanguage();
+        }
+
+        function t(key) {
+            return T[currentLang][key];
+        }
+
+        function applyLanguage() {
+            const html = document.getElementById('htmlRoot');
+            if (currentLang === 'fa') {
+                html.setAttribute('lang', 'fa');
+                html.setAttribute('dir', 'rtl');
+                document.getElementById('btnFa').classList.add('active');
+                document.getElementById('btnEn').classList.remove('active');
+            } else {
+                html.setAttribute('lang', 'en');
+                html.setAttribute('dir', 'ltr');
+                document.getElementById('btnEn').classList.add('active');
+                document.getElementById('btnFa').classList.remove('active');
+            }
+            
+            // Menu
+            document.getElementById('btnStartText').textContent = t('startGame');
+            document.getElementById('btnLevelsText').textContent = t('levelMap');
+            document.getElementById('btnAchText').textContent = t('achievements');
+            document.getElementById('btnShareText').textContent = t('share');
+            document.getElementById('btnResetText').textContent = t('reset');
+            document.getElementById('lblCompleted').textContent = t('completed');
+            document.getElementById('lblScore').textContent = t('score');
+            document.getElementById('lblStars').textContent = t('stars');
+            
+            // Level Select
+            document.getElementById('levelSelectTitle').textContent = t('levelSelectTitle');
+            document.getElementById('levelSelectSub').textContent = t('levelSelectSub');
+            document.getElementById('btnBackText').textContent = t('back');
+            
+            // Game
+            document.getElementById('lblLevel').textContent = t('level');
+            document.getElementById('lblTime').textContent = t('time');
+            document.getElementById('lblPts').textContent = t('pts');
+            
+            // Complete
+            document.getElementById('btnNextText').textContent = t('nextLevel');
+            document.getElementById('btnHomeText').textContent = t('home');
+            document.getElementById('lblCompleteTime').textContent = t('time');
+            document.getElementById('lblCompletePts').textContent = t('pts');
+            document.getElementById('lblCompleteStars').textContent = t('stars');
+            
+            // Achievements
+            document.getElementById('achTitle').textContent = t('achTitle');
+            document.getElementById('achSub').textContent = t('achSub');
+            document.getElementById('btnBackAchText').textContent = t('back');
+            
+            // Refresh current level if in game
+            if (document.getElementById('screen-game').classList.contains('active')) {
+                if (typeof currentStage !== 'undefined' && currentStage && currentStage.question) {
+                    document.getElementById('puzzleQuestion').textContent = currentStage.question[currentLang];
+                    document.getElementById('doorRune').textContent = currentStage.doorHint[currentLang] || 'TAP TO OPEN';
+                }
+            }
+        }
+
+        // ============================================
+        // 2) STATE
         // ============================================
         let state = JSON.parse(localStorage.getItem('doors_state') || 'null') || {
             currentLevel: 1,
             completedLevels: [],
-            scores: {},       // { levelId: score }
-            stars: {},        // { levelId: 1-3 }
+            scores: {},
+            stars: {},
             achievements: [],
             totalScore: 0
         };
@@ -1115,176 +1642,305 @@
         let attempts = 0;
 
         // ============================================
-        // 2) ACHIEVEMENTS
+        // 3) LEVELS — 100 مرحله
+        // ============================================
+        const LEVELS = [];
+
+        // ========== مراحل 1-10: شروع ==========
+        LEVELS.push({
+            type: 'hidden-key',
+            question: { fa: 'در قفله. یه کلید توی صفحه پنهانه. پیداش کن!', en: 'The door is locked. A key is hidden on the screen. Find it!' },
+            hint: { fa: 'یه ذره طلایی توی گوشه‌ها بگرد', en: 'Look for a tiny golden spot in the corners' },
+            doorHint: { fa: 'FIND THE KEY', en: 'FIND THE KEY' }
+        });
+        LEVELS.push({
+            type: 'input',
+            question: { fa: 'معادله روی در: 7 + 8 = ?', en: 'Equation on door: 7 + 8 = ?' },
+            hint: { fa: 'جمع کن', en: 'Add them' },
+            answer: '15',
+            doorHint: { fa: 'SOLVE IT', en: 'SOLVE IT' }
+        });
+        LEVELS.push({
+            type: 'blinking-lamp',
+            question: { fa: 'چهار چراغ روشنه. فقط یکی چشمک می‌زنه. اون رو بزن.', en: 'Four lamps are on. Only one blinks. Tap it.' },
+            hint: { fa: 'چشمک رو دنبال کن', en: 'Follow the blink' },
+            doorHint: { fa: 'FIND THE BLINK', en: 'FIND THE BLINK' }
+        });
+        LEVELS.push({
+            type: 'input',
+            question: { fa: 'روی در نوشته: «هفت». عددش رو به انگلیسی تایپ کن.', en: 'On the door: "Seven". Type the number.' },
+            hint: { fa: '7', en: '7' },
+            answer: '7',
+            doorHint: { fa: 'TRANSLATE', en: 'TRANSLATE' }
+        });
+        LEVELS.push({
+            type: 'input',
+            question: { fa: 'رمز از حروف: D=1، O=2، O=2، R=3. رمز چیه؟', en: 'Code from letters: D=1, O=2, O=2, R=3. What is it?' },
+            hint: { fa: 'کنار هم بذار: 1 2 2 3', en: 'Put them together: 1 2 2 3' },
+            answer: '1223',
+            doorHint: { fa: 'BUILD CODE', en: 'BUILD CODE' }
+        });
+        LEVELS.push({
+            type: 'quick-tap',
+            question: { fa: 'زود باش! تا ۵ ثانیه در رو باز کن!', en: 'Hurry! Open the door within 5 seconds!' },
+            hint: { fa: 'سریع کلیک کن', en: 'Click fast' },
+            doorHint: { fa: 'HURRY UP', en: 'HURRY UP' },
+            seconds: 5
+        });
+        LEVELS.push({
+            type: 'input',
+            question: { fa: 'چند تا ضلع داره یه شش‌ضلعی؟', en: 'How many sides does a hexagon have?' },
+            hint: { fa: 'hex = شش', en: 'hex = six' },
+            answer: '6',
+            doorHint: { fa: 'COUNT SIDES', en: 'COUNT SIDES' }
+        });
+        LEVELS.push({
+            type: 'sequence-lamps',
+            question: { fa: 'یه الگو نشون داده می‌شه. بعدش تکرارش کن.', en: 'A pattern is shown. Repeat it.' },
+            hint: { fa: 'دقت کن', en: 'Watch carefully' },
+            doorHint: { fa: 'FOLLOW PATTERN', en: 'FOLLOW PATTERN' }
+        });
+        LEVELS.push({
+            type: 'input',
+            question: { fa: 'حروف به هم ریخته: M O R O. کلمه درست چیه؟', en: 'Scrambled: M O R O. What is the word?' },
+            hint: { fa: 'اتاق به انگلیسی', en: 'Room in English' },
+            answer: 'room',
+            doorHint: { fa: 'UNSCRAMBLE', en: 'UNSCRAMBLE' }
+        });
+        LEVELS.push({
+            type: 'tap-handle',
+            question: { fa: 'دستگیره در رو پیدا کن و روش کلیک کن!', en: 'Find the door handle and click it!' },
+            hint: { fa: 'سمت راست در', en: 'Right side of door' },
+            doorHint: { fa: 'FIND HANDLE', en: 'FIND HANDLE' }
+        });
+
+        // ========== مراحل 11-20: ریاضی ==========
+        LEVELS.push({ type: 'input', question: { fa: '12 × 12 = ?', en: '12 × 12 = ?' }, hint: { fa: 'مربع ۱۲', en: 'Square of 12' }, answer: '144', doorHint: { fa: 'MATH', en: 'MATH' } });
+        LEVELS.push({ type: 'input', question: { fa: '√۱۶۹ = ?', en: '√169 = ?' }, hint: { fa: '۱۳ × ۱۳', en: '13 × 13' }, answer: '13', doorHint: { fa: 'SQRT', en: 'SQRT' } });
+        LEVELS.push({ type: 'input', question: { fa: '5! = ?', en: '5! = ?' }, hint: { fa: '5×4×3×2×1', en: '5×4×3×2×1' }, answer: '120', doorHint: { fa: 'FACTORIAL', en: 'FACTORIAL' } });
+        LEVELS.push({ type: 'input', question: { fa: '2⁸ = ?', en: '2⁸ = ?' }, hint: { fa: '۲ به توان ۸', en: '2 to the power 8' }, answer: '256', doorHint: { fa: 'POWER', en: 'POWER' } });
+        LEVELS.push({ type: 'input', question: { fa: 'عدد اول بعد از ۱۷ چیه؟', en: 'Next prime after 17?' }, hint: { fa: '۱۹', en: '19' }, answer: '19', doorHint: { fa: 'PRIME', en: 'PRIME' } });
+        LEVELS.push({ type: 'input', question: { fa: '3² + 4² = ?', en: '3² + 4² = ?' }, hint: { fa: '9 + 16', en: '9 + 16' }, answer: '25', doorHint: { fa: 'PYTHAGORAS', en: 'PYTHAGORAS' } });
+        LEVELS.push({ type: 'input', question: { fa: 'عددی که هم بر ۳ و هم بر ۵ بخش‌پذیره، بین ۱۰ تا ۲۰؟', en: 'Divisible by 3 and 5, between 10 and 20?' }, hint: { fa: '۳×۵=۱۵', en: '3×5=15' }, answer: '15', doorHint: { fa: 'LCM', en: 'LCM' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حاصل 15% از 200 = ?', en: '15% of 200 = ?' }, hint: { fa: '200 × 0.15', en: '200 × 0.15' }, answer: '30', doorHint: { fa: 'PERCENT', en: 'PERCENT' } });
+        LEVELS.push({ type: 'input', question: { fa: 'اگر x + 5 = 12، x چیه؟', en: 'If x + 5 = 12, what is x?' }, hint: { fa: '12 - 5', en: '12 - 5' }, answer: '7', doorHint: { fa: 'ALGEBRA', en: 'ALGEBRA' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حاصل 2 + 3 × 4 = ?', en: '2 + 3 × 4 = ?' }, hint: { fa: 'اول ضرب: 3×4=12 → 2+12', en: 'Multiply first: 3×4=12 → 2+12' }, answer: '14', doorHint: { fa: 'ORDER', en: 'ORDER' } });
+
+        // ========== مراحل 21-30: منطق ==========
+        LEVELS.push({ type: 'input', question: { fa: 'چند تا ماه توی یه سال؟', en: 'How many months in a year?' }, hint: { fa: 'ژانویه تا دسامبر', en: 'January to December' }, answer: '12', doorHint: { fa: 'MONTHS', en: 'MONTHS' } });
+        LEVELS.push({ type: 'input', question: { fa: 'چند تا روز توی یه هفته؟', en: 'How many days in a week?' }, hint: { fa: 'شنبه تا جمعه', en: 'Saturday to Friday' }, answer: '7', doorHint: { fa: 'WEEK', en: 'WEEK' } });
+        LEVELS.push({ type: 'input', question: { fa: 'چند تا ثانیه توی یه دقیقه؟', en: 'How many seconds in a minute?' }, hint: { fa: '60', en: '60' }, answer: '60', doorHint: { fa: 'SECONDS', en: 'SECONDS' } });
+        LEVELS.push({ type: 'input', question: { fa: 'چند تا صفر توی یک میلیون؟', en: 'How many zeros in one million?' }, hint: { fa: '1,000,000', en: '1,000,000' }, answer: '6', doorHint: { fa: 'ZEROS', en: 'ZEROS' } });
+        LEVELS.push({ type: 'input', question: { fa: 'نصف نصف ۱۰۰ چیه؟', en: 'Half of half of 100?' }, hint: { fa: '۵۰ → ۲۵', en: '50 → 25' }, answer: '25', doorHint: { fa: 'HALF', en: 'HALF' } });
+        LEVELS.push({ type: 'input', question: { fa: 'سه تا گربه، سه تا موش توی سه دقیقه می‌گیرن. ۹ گربه، ۹ موش توی چند دقیقه می‌گیرن؟', en: '3 cats catch 3 mice in 3 min. How long for 9 cats and 9 mice?' }, hint: { fa: 'نسبت یکیه', en: 'Same ratio' }, answer: '3', doorHint: { fa: 'RIDDLE', en: 'RIDDLE' } });
+        LEVELS.push({ type: 'input', question: { fa: 'یه پدر و پسر ۱۰۰ سالشون با همه. پدر ۷۰ سالشه. پسر چند سالشه؟', en: 'Father and son are 100. Father is 70. How old is son?' }, hint: { fa: '100 - 70', en: '100 - 70' }, answer: '30', doorHint: { fa: 'AGE', en: 'AGE' } });
+        LEVELS.push({ type: 'input', question: { fa: 'کدوم سنگین‌تره: ۱ کیلو پَر یا ۱ کیلو آهن؟', en: 'Which is heavier: 1kg feathers or 1kg iron?' }, hint: { fa: 'هر دو ۱ کیلو! (جواب: برابر)', en: 'Both 1kg! (Answer: برابر / equal)' }, answer: 'برابر', doorHint: { fa: 'TRICK', en: 'TRICK' } });
+        LEVELS.push({ type: 'input', question: { fa: 'یه ساعت شنی ۷ دقیقه‌ای و یه ۱۱ دقیقه‌ای داری. چطور ۱۵ دقیقه اندازه بگیری؟ جواب: اختلاف = ؟', en: '7-min and 11-min hourglasses. How to measure 15 min? Answer: 11 - 7 + ? = ?' }, hint: { fa: '11 - 7 = 4 → 11 + 4 = 15', en: '11-7=4 → 11+4=15' }, answer: '15', doorHint: { fa: 'HOURGLASS', en: 'HOURGLASS' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حاصل (10 + 20) ÷ (3 + 2) = ?', en: '(10 + 20) ÷ (3 + 2) = ?' }, hint: { fa: '30 ÷ 5', en: '30 ÷ 5' }, answer: '6', doorHint: { fa: 'MATH', en: 'MATH' } });
+
+        // ========== مراحل 31-40: کلمات ==========
+        LEVELS.push({ type: 'input', question: { fa: 'معکوس کلمه «PULSE»', en: 'Reverse of "PULSE"' }, hint: { fa: 'ESLUP', en: 'ESLUP' }, answer: 'eslup', caseInsensitive: true, doorHint: { fa: 'REVERSE', en: 'REVERSE' } });
+        LEVELS.push({ type: 'input', question: { fa: 'کلمه‌ای که از «SALAM» ساخته می‌شه؟', en: 'Anagram of "SALAM"?' }, hint: { fa: 'سلام / peace', en: 'salam / peace' }, answer: 'salam', caseInsensitive: true, doorHint: { fa: 'ANAGRAM', en: 'ANAGRAM' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حروف کلمه «cat» رو به ترتیب حروف الفبا بچین', en: 'Sort letters of "cat" alphabetically' }, hint: { fa: 'a، c، t', en: 'a, c, t' }, answer: 'act', caseInsensitive: true, doorHint: { fa: 'SORT', en: 'SORT' } });
+        LEVELS.push({ type: 'input', question: { fa: 'اسم تیم تولید 100 Doors؟ (کلمه: امیرحسین)', en: 'Creator of 100 Doors? (word: Amirhossein)' }, hint: { fa: 'Amirhossein', en: 'Amirhossein' }, answer: 'amirhossein', caseInsensitive: true, doorHint: { fa: 'CREATOR', en: 'CREATOR' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حروف «DOOR» رو دوباره بچین تا کلمه دیگه‌ای بسازی', en: 'Rearrange "DOOR" to make another word' }, hint: { fa: 'ODOR', en: 'ODOR' }, answer: 'odor', caseInsensitive: true, doorHint: { fa: 'ANAGRAM', en: 'ANAGRAM' } });
+        LEVELS.push({ type: 'input', question: { fa: 'کلمه پنج حرفی که با "CLOCK" شروع می‌شه', en: '5-letter word starting with "CLOCK"' }, hint: { fa: 'ساعت', en: 'clock' }, answer: 'clock', caseInsensitive: true, doorHint: { fa: 'WORD', en: 'WORD' } });
+        LEVELS.push({ type: 'input', question: { fa: 'کلمه «سلام» به انگلیسی چیه؟', en: 'What is "salam" in English?' }, hint: { fa: 'Hello', en: 'Hello' }, answer: 'hello', caseInsensitive: true, doorHint: { fa: 'TRANSLATE', en: 'TRANSLATE' } });
+        LEVELS.push({ type: 'input', question: { fa: 'دو حرف بعد از K توی الفبا؟', en: 'Two letters after K in alphabet?' }, hint: { fa: 'L M', en: 'L M' }, answer: 'lm', caseInsensitive: true, doorHint: { fa: 'ALPHABET', en: 'ALPHABET' } });
+        LEVELS.push({ type: 'input', question: { fa: 'کلمه «مرگ» به انگلیسی؟', en: 'What is "marg" in English?' }, hint: { fa: 'Death', en: 'Death' }, answer: 'death', caseInsensitive: true, doorHint: { fa: 'TRANSLATE', en: 'TRANSLATE' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حروف وسط کلمه «OPEN» چیه؟', en: 'Middle letters of "OPEN"?' }, hint: { fa: 'P E', en: 'P E' }, answer: 'pe', caseInsensitive: true, doorHint: { fa: 'MIDDLE', en: 'MIDDLE' } });
+
+        // ========== مراحل 41-50: مخفی ==========
+        LEVELS.push({
+            type: 'console',
+            question: { fa: 'یه کد مخفی توی Console هست. F12 رو بزن و ببین!', en: 'A secret code is in Console. Press F12 and check!' },
+            hint: { fa: 'Console رو باز کن، کد رو نوشته', en: 'Open Console, code is written' },
+            answer: 'door41',
+            doorHint: { fa: 'CHECK CONSOLE', en: 'CHECK CONSOLE' }
+        });
+        LEVELS.push({
+            type: 'url-hash',
+            question: { fa: 'توی URL یه #door42 هست. جوابش رو وارد کن.', en: 'There is a #door42 in URL. Enter it.' },
+            hint: { fa: 'آدرس بالا رو نگاه کن', en: 'Check the address bar' },
+            answer: '42',
+            doorHint: { fa: 'CHECK URL', en: 'CHECK URL' }
+        });
+        LEVELS.push({
+            type: 'input',
+            question: { fa: 'جواب ۶ × ۷ = ؟', en: '6 × 7 = ?' },
+            hint: { fa: '۴۲', en: '42' },
+            answer: '42',
+            doorHint: { fa: 'MEANING', en: 'MEANING' }
+        });
+        LEVELS.push({
+            type: 'input',
+            question: { fa: 'حروف کلمه "JavaScript" چندتاست؟', en: 'How many letters in "JavaScript"?' },
+            hint: { fa: 'بشمار', en: 'Count them' },
+            answer: '10',
+            doorHint: { fa: 'COUNT', en: 'COUNT' }
+        });
+        LEVELS.push({
+            type: 'input',
+            question: { fa: 'حاصل ۱۰۰ ÷ ۴ = ؟', en: '100 ÷ 4 = ?' },
+            hint: { fa: '۲۵', en: '25' },
+            answer: '25',
+            doorHint: { fa: 'MATH', en: 'MATH' }
+        });
+        LEVELS.push({
+            type: 'input',
+            question: { fa: 'سه تا سیب داری، ۲ تا می‌دی. چند تا می‌مونه؟', en: '3 apples, you give 2. How many left?' },
+            hint: { fa: '۱', en: '1' },
+            answer: '1',
+            doorHint: { fa: 'LOGIC', en: 'LOGIC' }
+        });
+        LEVELS.push({
+            type: 'input',
+            question: { fa: 'پایتخت ایران؟', en: 'Capital of Iran?' },
+            hint: { fa: 'تهران', en: 'Tehran' },
+            answer: 'تهران',
+            doorHint: { fa: 'CAPITAL', en: 'CAPITAL' }
+        });
+        LEVELS.push({
+            type: 'input',
+            question: { fa: 'حاصل ۱۱ × ۱۱ = ؟', en: '11 × 11 = ?' },
+            hint: { fa: 'مربع ۱۱', en: 'Square of 11' },
+            answer: '121',
+            doorHint: { fa: 'MATH', en: 'MATH' }
+        });
+        LEVELS.push({
+            type: 'input',
+            question: { fa: 'تعداد اضلاع بیست‌ضلعی؟', en: 'Sides of icosagon?' },
+            hint: { fa: 'اسمش همه چیز رو می‌گه!', en: 'The name says it all!' },
+            answer: '20',
+            doorHint: { fa: 'POLYGON', en: 'POLYGON' }
+        });
+        LEVELS.push({
+            type: 'input',
+            question: { fa: 'حاصل ۹۹۹ + ۱ = ؟', en: '999 + 1 = ?' },
+            hint: { fa: 'هزار', en: 'thousand' },
+            answer: '1000',
+            doorHint: { fa: 'MATH', en: 'MATH' }
+        });
+
+        // ========== مراحل 51-60: Programming ==========
+        LEVELS.push({ type: 'input', question: { fa: 'خروجی 2 + "2" توی JavaScript؟', en: 'Output of 2 + "2" in JavaScript?' }, hint: { fa: 'Type coercion → "22"', en: 'Type coercion → "22"' }, answer: '22', doorHint: { fa: 'JAVASCRIPT', en: 'JAVASCRIPT' } });
+        LEVELS.push({ type: 'input', question: { fa: 'typeof [] چیه؟', en: 'typeof []?' }, hint: { fa: 'Array is an object', en: 'Array is an object' }, answer: 'object', caseInsensitive: true, doorHint: { fa: 'TYPEOF', en: 'TYPEOF' } });
+        LEVELS.push({ type: 'input', question: { fa: 'true + true = ؟', en: 'true + true = ?' }, hint: { fa: 'true=1', en: 'true=1' }, answer: '2', doorHint: { fa: 'BOOLEAN', en: 'BOOLEAN' } });
+        LEVELS.push({ type: 'input', question: { fa: 'طول آرایه [1,2,3,4,5]؟', en: 'Length of [1,2,3,4,5]?' }, hint: { fa: 'length', en: 'length' }, answer: '5', doorHint: { fa: 'LENGTH', en: 'LENGTH' } });
+        LEVELS.push({ type: 'input', question: { fa: '"5" - 3 = ؟', en: '"5" - 3 = ?' }, hint: { fa: 'تبدیل به عدد → 2', en: 'Convert to number → 2' }, answer: '2', doorHint: { fa: 'COERCION', en: 'COERCION' } });
+        LEVELS.push({ type: 'input', question: { fa: 'NaN === NaN ؟ (true/false)', en: 'NaN === NaN ? (true/false)' }, hint: { fa: 'false', en: 'false' }, answer: 'false', caseInsensitive: true, doorHint: { fa: 'NAN', en: 'NAN' } });
+        LEVELS.push({ type: 'input', question: { fa: 'کلمه کلیدی تابع در JS؟', en: 'Function keyword in JS?' }, hint: { fa: 'function', en: 'function' }, answer: 'function', caseInsensitive: true, doorHint: { fa: 'KEYWORD', en: 'KEYWORD' } });
+        LEVELS.push({ type: 'input', question: { fa: '0.1 + 0.2 === 0.3 ؟ (true/false)', en: '0.1 + 0.2 === 0.3 ? (true/false)' }, hint: { fa: 'Floating point!', en: 'Floating point!' }, answer: 'false', caseInsensitive: true, doorHint: { fa: 'FLOAT', en: 'FLOAT' } });
+        LEVELS.push({ type: 'input', question: { fa: 'پسوند فایل JavaScript؟', en: 'JavaScript file extension?' }, hint: { fa: '.js', en: '.js' }, answer: '.js', caseInsensitive: true, doorHint: { fa: 'EXTENSION', en: 'EXTENSION' } });
+        LEVELS.push({ type: 'input', question: { fa: 'چند تا نوع داده اولیه توی JS؟', en: 'How many primitive types in JS?' }, hint: { fa: 'string, number, boolean, null, undefined, symbol, bigint', en: 'string, number, boolean, null, undefined, symbol, bigint' }, answer: '7', doorHint: { fa: 'DATATYPES', en: 'DATATYPES' } });
+
+        // ========== مراحل 61-70: عمومی ==========
+        LEVELS.push({ type: 'input', question: { fa: 'بزرگترین سیاره منظومه شمسی؟', en: 'Largest planet in our solar system?' }, hint: { fa: 'مشتری', en: 'Jupiter' }, answer: 'مشتری', doorHint: { fa: 'PLANET', en: 'PLANET' } });
+        LEVELS.push({ type: 'input', question: { fa: 'چند تا رنگ توی رنگین‌کمون؟', en: 'Colors in a rainbow?' }, hint: { fa: 'قرمز تا بنفش', en: 'red to violet' }, answer: '7', doorHint: { fa: 'RAINBOW', en: 'RAINBOW' } });
+        LEVELS.push({ type: 'input', question: { fa: 'تعداد قاره‌های زمین؟', en: 'How many continents?' }, hint: { fa: 'آسیا، اروپا، آفریقا، آمریکا شمالی و جنوبی، استرالیا، قطب جنوب', en: 'Asia, Europe, Africa, Americas, Australia, Antarctica' }, answer: '7', doorHint: { fa: 'CONTINENTS', en: 'CONTINENTS' } });
+        LEVELS.push({ type: 'input', question: { fa: 'کدوم حیوون بلندترین گردن رو داره؟', en: 'Which animal has the longest neck?' }, hint: { fa: 'زرافه', en: 'Giraffe' }, answer: 'زرافه', doorHint: { fa: 'ANIMAL', en: 'ANIMAL' } });
+        LEVELS.push({ type: 'input', question: { fa: 'زبان رسمی برزیل؟', en: 'Official language of Brazil?' }, hint: { fa: 'Portuguese', en: 'Portuguese' }, answer: 'پرتغالی', doorHint: { fa: 'LANGUAGE', en: 'LANGUAGE' } });
+        LEVELS.push({ type: 'input', question: { fa: 'تعداد حروف انگلیسی؟', en: 'How many letters in English alphabet?' }, hint: { fa: 'A تا Z', en: 'A to Z' }, answer: '26', doorHint: { fa: 'ALPHABET', en: 'ALPHABET' } });
+        LEVELS.push({ type: 'input', question: { fa: 'آب از چند اتم ساخته شده؟', en: 'How many atoms in water?' }, hint: { fa: 'H₂O', en: 'H₂O' }, answer: '3', doorHint: { fa: 'CHEMISTRY', en: 'CHEMISTRY' } });
+        LEVELS.push({ type: 'input', question: { fa: 'فصل بعد از تابستون؟', en: 'Season after summer?' }, hint: { fa: 'پاییز', en: 'Autumn' }, answer: 'پاییز', doorHint: { fa: 'SEASON', en: 'SEASON' } });
+        LEVELS.push({ type: 'input', question: { fa: 'نام ماه اول سال میلادی؟', en: 'First month of Gregorian year?' }, hint: { fa: 'January', en: 'January' }, answer: 'january', caseInsensitive: true, doorHint: { fa: 'MONTH', en: 'MONTH' } });
+        LEVELS.push({ type: 'input', question: { fa: 'تعداد ثانیه‌های یه ساعت؟', en: 'Seconds in an hour?' }, hint: { fa: '60 × 60', en: '60 × 60' }, answer: '3600', doorHint: { fa: 'TIME', en: 'TIME' } });
+
+        // ========== مراحل 71-80: سخت ==========
+        LEVELS.push({ type: 'input', question: { fa: 'کدوم بزرگتره: 2⁵ یا 5²؟ (جواب: بزرگتر رو بنویس)', en: 'Which is bigger: 2⁵ or 5²? (write the bigger one)' }, hint: { fa: '32 vs 25', en: '32 vs 25' }, answer: '32', doorHint: { fa: 'COMPARE', en: 'COMPARE' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حاصل 8! ÷ 7! = ؟', en: '8! ÷ 7! = ?' }, hint: { fa: 'فقط ۸ می‌مونه', en: 'Only 8 remains' }, answer: '8', doorHint: { fa: 'FACTORIAL', en: 'FACTORIAL' } });
+        LEVELS.push({ type: 'input', question: { fa: 'کوچکترین عدد اول؟', en: 'Smallest prime?' }, hint: { fa: 'نه ۱', en: 'Not 1' }, answer: '2', doorHint: { fa: 'PRIME', en: 'PRIME' } });
+        LEVELS.push({ type: 'input', question: { fa: 'هر عددی به توان صفر = ؟', en: 'Any number to power 0 = ?' }, hint: { fa: '۱', en: '1' }, answer: '1', doorHint: { fa: 'POWER', en: 'POWER' } });
+        LEVELS.push({ type: 'input', question: { fa: 'رادیکال ۶۴ = ؟', en: '√64 = ?' }, hint: { fa: '۸', en: '8' }, answer: '8', doorHint: { fa: 'SQRT', en: 'SQRT' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حاصل 123 × 0 = ؟', en: '123 × 0 = ?' }, hint: { fa: 'هر چیزی × ۰', en: 'anything × 0' }, answer: '0', doorHint: { fa: 'ZERO', en: 'ZERO' } });
+        LEVELS.push({ type: 'input', question: { fa: 'تعداد روزهای فوریه در سال غیر کبیسه؟', en: 'Days in Feb (non-leap)?' }, hint: { fa: '28', en: '28' }, answer: '28', doorHint: { fa: 'DAYS', en: 'DAYS' } });
+        LEVELS.push({ type: 'input', question: { fa: 'چند تا ثانیه توی ۲ دقیقه و ۳۰ ثانیه؟', en: 'How many seconds in 2 min 30 sec?' }, hint: { fa: '120 + 30', en: '120 + 30' }, answer: '150', doorHint: { fa: 'SECONDS', en: 'SECONDS' } });
+        LEVELS.push({ type: 'input', question: { fa: '۹۹۹ - ۹۹ = ؟', en: '999 - 99 = ?' }, hint: { fa: '900', en: '900' }, answer: '900', doorHint: { fa: 'MATH', en: 'MATH' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حاصل ۲ × ۲ × ۲ × ۲ × ۲ = ؟', en: '2 × 2 × 2 × 2 × 2 = ?' }, hint: { fa: '2⁵', en: '2⁵' }, answer: '32', doorHint: { fa: 'POWER', en: 'POWER' } });
+
+        // ========== مراحل 81-90: خیلی سخت ==========
+        LEVELS.push({ type: 'input', question: { fa: 'کدوم سریع‌تره: نور یا صدا؟ (کدوم؟)', en: 'Which is faster: light or sound?' }, hint: { fa: 'نور', en: 'light' }, answer: 'نور', doorHint: { fa: 'SPEED', en: 'SPEED' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حاصل (2+3) × (4+5) = ؟', en: '(2+3) × (4+5) = ?' }, hint: { fa: '5 × 9', en: '5 × 9' }, answer: '45', doorHint: { fa: 'MATH', en: 'MATH' } });
+        LEVELS.push({ type: 'input', question: { fa: 'تعداد کل مستطیل‌ها تو صفحه شطرنج ۸×۸؟', en: 'Total rectangles on 8×8 chessboard?' }, hint: { fa: '(8×9/2)² = 36²', en: '(8×9/2)² = 36²' }, answer: '1296', doorHint: { fa: 'CHESS', en: 'CHESS' } });
+        LEVELS.push({ type: 'input', question: { fa: 'کلمه «شیر» چند تا معنی داره؟ (به عدد)', en: 'How many meanings does "shir" have? (number)' }, hint: { fa: 'شیر آب، شیر جنگل، شیر خوراکی', en: 'water tap, lion, milk' }, answer: '3', doorHint: { fa: 'MEANINGS', en: 'MEANINGS' } });
+        LEVELS.push({ type: 'input', question: { fa: 'امیرحسین ۱۰ سال بعد ۲۵ ساله می‌شه. الان چند سالشه؟', en: 'Amirhossein will be 25 in 10 years. How old now?' }, hint: { fa: '25 - 10', en: '25 - 10' }, answer: '15', doorHint: { fa: 'AGE', en: 'AGE' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حروف «DEATH» چندمین حروف الفبا؟ مجموع؟', en: 'Sum of letters in "DEATH" (A=1, B=2...)?' }, hint: { fa: 'D=4، E=5، A=1، T=20، H=8 → 38', en: 'D=4, E=5, A=1, T=20, H=8 → 38' }, answer: '38', doorHint: { fa: 'SUM', en: 'SUM' } });
+        LEVELS.push({ type: 'input', question: { fa: 'یک سوم ۹۹ = ؟', en: 'One third of 99 = ?' }, hint: { fa: '99 ÷ 3', en: '99 ÷ 3' }, answer: '33', doorHint: { fa: 'FRACTION', en: 'FRACTION' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حاصل ۵⁰ + ۵¹ + ۵² = ؟', en: '5⁰ + 5¹ + 5² = ?' }, hint: { fa: '1 + 5 + 25', en: '1 + 5 + 25' }, answer: '31', doorHint: { fa: 'POWER', en: 'POWER' } });
+        LEVELS.push({ type: 'input', question: { fa: 'مجموع اعداد ۱ تا ۱۰ = ؟', en: 'Sum of 1 to 10 = ?' }, hint: { fa: 'n(n+1)/2 = 55', en: 'n(n+1)/2 = 55' }, answer: '55', doorHint: { fa: 'SUM', en: 'SUM' } });
+        LEVELS.push({ type: 'input', question: { fa: 'کدوم عدد فیبوناچی بعد از 34 هست؟', en: 'Next Fibonacci after 34?' }, hint: { fa: '34 + 21', en: '34 + 21' }, answer: '55', doorHint: { fa: 'FIBONACCI', en: 'FIBONACCI' } });
+
+        // ========== مراحل 91-100: نهایی ==========
+        LEVELS.push({ type: 'input', question: { fa: 'حاصل ۲ × ۳ × ۴ × ۵ = ؟', en: '2 × 3 × 4 × 5 = ?' }, hint: { fa: '120', en: '120' }, answer: '120', doorHint: { fa: 'MATH', en: 'MATH' } });
+        LEVELS.push({ type: 'input', question: { fa: 'تعداد اضلاع مثلث + مربع = ؟', en: 'Triangle sides + square sides = ?' }, hint: { fa: '3 + 4', en: '3 + 4' }, answer: '7', doorHint: { fa: 'SHAPES', en: 'SHAPES' } });
+        LEVELS.push({ type: 'input', question: { fa: 'کلمه «سلام» چند حرف داره؟', en: 'How many letters in "salam"?' }, hint: { fa: 'س ل ا م → ۴', en: 's a l a m → 5' }, answer: '4', doorHint: { fa: 'COUNT', en: 'COUNT' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حاصل ۹۹ × ۱۱ = ؟', en: '99 × 11 = ?' }, hint: { fa: '99 × 10 + 99', en: '99 × 10 + 99' }, answer: '1089', doorHint: { fa: 'MATH', en: 'MATH' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حاصل ۲⁴ × ۲³ = ؟', en: '2⁴ × 2³ = ?' }, hint: { fa: '2⁷', en: '2⁷' }, answer: '128', doorHint: { fa: 'POWER', en: 'POWER' } });
+        LEVELS.push({ type: 'input', question: { fa: 'نصف ۲۵۰ = ؟', en: 'Half of 250 = ?' }, hint: { fa: '250 ÷ 2', en: '250 ÷ 2' }, answer: '125', doorHint: { fa: 'HALF', en: 'HALF' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حاصل ۸ × ۱۲۵ = ؟', en: '8 × 125 = ?' }, hint: { fa: '1000', en: '1000' }, answer: '1000', doorHint: { fa: 'MATH', en: 'MATH' } });
+        LEVELS.push({ type: 'input', question: { fa: 'حروف کلمه "ANCIENT" چندتاست؟', en: 'How many letters in "ANCIENT"?' }, hint: { fa: 'بشمار', en: 'Count' }, answer: '7', doorHint: { fa: 'COUNT', en: 'COUNT' } });
+        LEVELS.push({ type: 'input', question: { fa: 'آخرین مرحله! جواب: «پایان» رو بنویس', en: 'Last door! Write: "پایان" (end)' }, hint: { fa: 'پایان', en: 'پایان' }, answer: 'پایان', doorHint: { fa: 'THE END', en: 'THE END' } });
+        LEVELS.push({ type: 'input', question: { fa: '🎉 تبریک! تو ۱۰۰ در رو باز کردی! بنویس «آزادی»', en: '🎉 Congratulations! You opened 100 doors! Write "آزادی" (freedom)' }, hint: { fa: 'آزادی', en: 'آزادی' }, answer: 'آزادی', doorHint: { fa: 'FREEDOM', en: 'FREEDOM' } });
+
+        // ============================================
+        // 4) ACHIEVEMENTS
         // ============================================
         const ACHIEVEMENTS = [
-            { id: 'first_step', icon: '🥇', name: 'اولین قدم', desc: 'مرحله ۱ رو تموم کن', check: (s) => s.completedLevels.includes(1) },
-            { id: 'level_10', icon: '🔥', name: '۱۰ مرحله', desc: '۱۰ مرحله اول رو تموم کن', check: (s) => s.completedLevels.length >= 10 },
-            { id: 'level_25', icon: '💪', name: '۲۵ مرحله', desc: '۲۵ مرحله رو تموم کن', check: (s) => s.completedLevels.length >= 25 },
-            { id: 'level_50', icon: '⚡', name: 'نصف راه', desc: '۵۰ مرحله رو تموم کن', check: (s) => s.completedLevels.length >= 50 },
-            { id: 'level_75', icon: '🌟', name: 'سه‌ربع راه', desc: '۷۵ مرحله رو تموم کن', check: (s) => s.completedLevels.length >= 75 },
-            { id: 'level_100', icon: '👑', name: 'فاتح', desc: 'همه ۱۰۰ مرحله رو تموم کن', check: (s) => s.completedLevels.length >= 100 },
-            { id: 'score_1000', icon: '💎', name: 'هزارتایی', desc: 'به ۱۰۰۰ امتیاز برس', check: (s) => s.totalScore >= 1000 },
-            { id: 'score_5000', icon: '🏆', name: '۵۰۰۰ امتیاز', desc: 'به ۵۰۰۰ امتیاز برس', check: (s) => s.totalScore >= 5000 },
-            { id: 'perfect_10', icon: '⭐', name: 'بی‌نقص', desc: '۱۰ مرحله رو با ۳ ستاره تموم کن', check: (s) => Object.values(s.stars).filter(v => v === 3).length >= 10 },
-            { id: 'no_hint_20', icon: '🧠', name: 'نابغه', desc: '۲۰ مرحله بدون راهنما', check: (s) => s.completedLevels.length >= 20 }
+            { id: 'first', icon: '🥇', name: { fa: 'اولین قدم', en: 'First Step' }, desc: { fa: 'مرحله ۱ رو باز کن', en: 'Open level 1' }, check: (s) => s.completedLevels.includes(1) },
+            { id: 'lvl10', icon: '🔥', name: { fa: '۱۰ در', en: '10 Doors' }, desc: { fa: '۱۰ مرحله', en: '10 levels' }, check: (s) => s.completedLevels.length >= 10 },
+            { id: 'lvl25', icon: '💪', name: { fa: '۲۵ در', en: '25 Doors' }, desc: { fa: '۲۵ مرحله', en: '25 levels' }, check: (s) => s.completedLevels.length >= 25 },
+            { id: 'lvl50', icon: '⚡', name: { fa: 'نصف راه', en: 'Halfway' }, desc: { fa: '۵۰ مرحله', en: '50 levels' }, check: (s) => s.completedLevels.length >= 50 },
+            { id: 'lvl75', icon: '🌟', name: { fa: 'سه‌ربع راه', en: 'Three Quarters' }, desc: { fa: '۷۵ مرحله', en: '75 levels' }, check: (s) => s.completedLevels.length >= 75 },
+            { id: 'lvl100', icon: '👑', name: { fa: 'فاتح', en: 'Champion' }, desc: { fa: 'همه ۱۰۰ در', en: 'All 100 doors' }, check: (s) => s.completedLevels.length >= 100 },
+            { id: 'sc1000', icon: '💎', name: { fa: '۱۰۰۰ امتیاز', en: '1000 Points' }, desc: { fa: 'به ۱۰۰۰ برس', en: 'Reach 1000' }, check: (s) => s.totalScore >= 1000 },
+            { id: 'sc5000', icon: '🏆', name: { fa: '۵۰۰۰ امتیاز', en: '5000 Points' }, desc: { fa: 'به ۵۰۰۰ برس', en: 'Reach 5000' }, check: (s) => s.totalScore >= 5000 },
+            { id: 'perfect', icon: '⭐', name: { fa: 'بی‌نقص', en: 'Perfect' }, desc: { fa: '۱۰ مرحله با ۳ ستاره', en: '10 levels with 3 stars' }, check: (s) => Object.values(s.stars).filter(v => v === 3).length >= 10 },
+            { id: 'nohint', icon: '🧠', name: { fa: 'نابغه', en: 'Genius' }, desc: { fa: '۲۰ مرحله بدون راهنما', en: '20 levels without hints' }, check: (s) => s.completedLevels.length >= 20 }
         ];
 
         // ============================================
-        // 3) LEVELS — 100 مرحله
-        // ============================================
-        // هر مرحله: { type, question, hint, answer, setup }
-        // type: 'tap', 'input', 'colors', 'sequence', 'hold', 'swipe', 'multiple', 'console', 'timing'
-
-        const LEVELS = [];
-
-        // ========== مراحل 1-10: TAP ساده ==========
-        LEVELS.push({ type: 'tap', question: 'روی در کلیک کن تا باز شه', hint: 'کلیک کن!', doorHint: 'TAP TO OPEN' });
-        LEVELS.push({ type: 'tap', question: 'دو بار کلیک کن!', hint: 'دوبار سریع کلیک کن', doorHint: 'TAP TWICE', taps: 2 });
-        LEVELS.push({ type: 'tap', question: 'سه بار کلیک کن', hint: 'سه بار کلیک کن', doorHint: 'TAP 3X', taps: 3 });
-        LEVELS.push({ type: 'tap', question: 'پنج بار کلیک کن', hint: '۵ بار کلیک کن', doorHint: 'TAP 5X', taps: 5 });
-        LEVELS.push({ type: 'input', question: 'رمز چیه؟ فکر کن... جواب 1234 هست', hint: 'جواب: 1234', answer: '1234', doorHint: 'ENTER CODE' });
-        LEVELS.push({ type: 'input', question: 'عدد بعدی چیه؟ 2، 4، 6، 8، ?', hint: 'زوج‌ها رو بشمار', answer: '10', doorHint: 'NEXT NUMBER' });
-        LEVELS.push({ type: 'colors', question: 'چراغ سبز رو بزن', hint: 'رنگ سبز رو پیدا کن', targetColor: '#06ffa5', doorHint: 'GREEN LIGHT' });
-        LEVELS.push({ type: 'tap', question: 'روی دستگیره در (سمت راست) کلیک کن', hint: 'دستگیره در رو بزن', doorHint: 'TAP HANDLE', targetHandle: true });
-        LEVELS.push({ type: 'input', question: 'چند تا حرف تو کلمه «دَر» هست؟', hint: 'د-ر = ۲ حرف', answer: '2', doorHint: 'COUNT LETTERS' });
-        LEVELS.push({ type: 'sequence', question: 'دکمه‌ها رو به ترتیب بزن: قرمز، آبی، سبز', hint: 'ترتیب: قرمز → آبی → سبز', sequence: ['red', 'blue', 'green'], doorHint: 'FOLLOW ORDER' });
-
-        // ========== مراحل 11-20: INPUT و منطق ==========
-        LEVELS.push({ type: 'input', question: '7 × 8 = ?', hint: 'جدول ضرب', answer: '56', doorHint: 'MATH' });
-        LEVELS.push({ type: 'input', question: '100 - 45 = ?', hint: 'تفریق', answer: '55', doorHint: 'MATH' });
-        LEVELS.push({ type: 'input', question: 'کلمه ROOM رو برعکس بنویس', hint: 'MOOR', answer: 'moor', caseInsensitive: true, doorHint: 'REVERSE' });
-        LEVELS.push({ type: 'input', question: 'کدوم عدد اوله؟ 4، 9، 11، 15', hint: 'عدد اول فقط بر خودش و ۱ بخش‌پذیره', answer: '11', doorHint: 'PRIME' });
-        LEVELS.push({ type: 'input', question: 'جواب 15 + 27 - 12 = ?', hint: 'محاسبه کن', answer: '30', doorHint: 'MATH' });
-        LEVELS.push({ type: 'input', question: 'عدد فرد بعد از 47 چیه؟', hint: 'بعدی فرد', answer: '49', doorHint: 'ODD NUMBER' });
-        LEVELS.push({ type: 'input', question: 'چند تا ضلع یه مثلث داره؟', hint: 'سه‌ضلعی', answer: '3', doorHint: 'TRIANGLE' });
-        LEVELS.push({ type: 'input', question: 'عددی که هم بر ۲ هم بر ۳ بخش‌پذیره بین ۵ تا ۱۰؟', hint: '۶', answer: '6', doorHint: 'DIVISIBLE' });
-        LEVELS.push({ type: 'input', question: '5! (فاکتوریل) = ?', hint: '5×4×3×2×1', answer: '120', doorHint: 'FACTORIAL' });
-        LEVELS.push({ type: 'input', question: '2⁸ = ?', hint: '۲ به توان ۸', answer: '256', doorHint: 'POWER' });
-
-        // ========== مراحل 21-30: SEQUENCE ==========
-        LEVELS.push({ type: 'sequence', question: 'رنگ‌ها رو به ترتیب آبی، قرمز، زرد بزن', hint: 'آبی → قرمز → زرد', sequence: ['blue', 'red', 'yellow'], doorHint: 'ORDER' });
-        LEVELS.push({ type: 'sequence', question: 'به ترتیب نزولی تعداد اضلاع: مثلث، مربع، پنج‌ضلعی', hint: 'کم به زیاد: مثلث، مربع، پنج‌ضلعی', sequence: ['triangle', 'square', 'pentagon'], shapes: true, doorHint: 'SHAPES' });
-        LEVELS.push({ type: 'input', question: 'کلمه‌ای که تو آینه برعکس دیده می‌شه چیه؟ (بالا-پایین) — جواب: آینه', hint: 'جواب: آینه', answer: 'آینه', doorHint: 'MIRROR' });
-        LEVELS.push({ type: 'input', question: 'یه هفته چند روزه؟', hint: 'شنبه تا جمعه', answer: '7', doorHint: 'WEEK' });
-        LEVELS.push({ type: 'input', question: 'سال ۲۰۲۴ چند روز داشت؟', hint: 'سال کبیسه', answer: '366', doorHint: 'LEAP YEAR' });
-        LEVELS.push({ type: 'input', question: 'ساعت ۳:۱۵ زاویه بین عقربه‌ها چند درجه‌ست؟', hint: '۳۰×۳ - (۱۵×۵.۵) ≈ 7.5', answer: '7.5', doorHint: 'CLOCK', tolerant: 1 });
-        LEVELS.push({ type: 'input', question: 'حاصل ۱۲ × ۱۲ = ?', hint: 'مربع ۱۲', answer: '144', doorHint: 'MATH' });
-        LEVELS.push({ type: 'input', question: 'تعداد ماه‌های سال میلادی؟', hint: 'January ... December', answer: '12', doorHint: 'MONTHS' });
-        LEVELS.push({ type: 'input', question: 'تعداد سیاره‌های منظومه شمسی؟', hint: 'عطارد، زهره، زمین...', answer: '8', doorHint: 'PLANETS' });
-        LEVELS.push({ type: 'input', question: 'بین ۱ تا ۱۰ چند تا عدد اول هست؟', hint: '2,3,5,7', answer: '4', doorHint: 'PRIMES' });
-
-        // ========== مراحل 31-40: HOLD و TIMING ==========
-        LEVELS.push({ type: 'hold', question: 'دکمه رو ۳ ثانیه نگه دار', hint: 'نگه دار...', doorHint: 'HOLD 3s', seconds: 3 });
-        LEVELS.push({ type: 'hold', question: 'دکمه رو ۵ ثانیه نگه دار', hint: 'پنج ثانیه صبر', doorHint: 'HOLD 5s', seconds: 5 });
-        LEVELS.push({ type: 'input', question: 'حاصل ۹۹ + ۱ = ?', hint: 'صد', answer: '100', doorHint: 'MATH' });
-        LEVELS.push({ type: 'input', question: 'جذر ۱۴۴ چیه؟', hint: '√144', answer: '12', doorHint: 'SQRT' });
-        LEVELS.push({ type: 'input', question: 'زبان برنامه‌نویسی این بازی چیه؟', hint: 'Java___', answer: 'javascript', caseInsensitive: true, doorHint: 'LANGUAGE' });
-        LEVELS.push({ type: 'input', question: 'HTML مخفف چیه؟ (فقط اولی رو بنویس)', hint: 'Hyper...', answer: 'hypertext', caseInsensitive: true, doorHint: 'HTML' });
-        LEVELS.push({ type: 'input', question: 'در چه سالی اولین وب‌سایت ساخته شد؟', hint: 'سال ۱۹۹۱', answer: '1991', doorHint: 'WWW' });
-        LEVELS.push({ type: 'input', question: 'حاصل ۲ × ۳ × ۴ × ۵ = ?', hint: 'ضرب کن', answer: '120', doorHint: 'MATH' });
-        LEVELS.push({ type: 'input', question: 'اسم سازنده این بازی؟', hint: 'Amirhossein', answer: 'amirhossein', caseInsensitive: true, doorHint: 'CREATOR' });
-        LEVELS.push({ type: 'input', question: 'حاصل 15% از 200 = ?', hint: '200 × 0.15', answer: '30', doorHint: 'PERCENT' });
-
-        // ========== مراحل 41-50: معماهای مخفی ==========
-        LEVELS.push({ type: 'input', question: 'کد مخفی: F12 رو بزن، توی Console بنویس "door41"', hint: 'Console رو باز کن', answer: 'door41', caseInsensitive: true, doorHint: 'OPEN CONSOLE' });
-        LEVELS.push({ type: 'input', question: 'توی URL یه #door42 هست. جواب چیه؟', hint: 'آدرس رو نگاه کن', answer: '42', doorHint: 'CHECK URL' });
-        LEVELS.push({ type: 'input', question: 'جواب ۶ × ۷ = ؟', hint: '۴۲', answer: '42', doorHint: 'MEANING' });
-        LEVELS.push({ type: 'input', question: 'تعداد حروف کلمه "JavaScript" = ?', hint: 'بشمار', answer: '10', doorHint: 'COUNT' });
-        LEVELS.push({ type: 'input', question: 'حاصل ۱۰۰ ÷ ۴ = ?', hint: '۲۵', answer: '25', doorHint: 'MATH' });
-        LEVELS.push({ type: 'input', question: 'معکوس کلمه "PULSE"', hint: 'ESLUP', answer: 'eslup', caseInsensitive: true, doorHint: 'REVERSE' });
-        LEVELS.push({ type: 'input', question: 'جواب ۳ به توان ۴ = ?', hint: '3×3×3×3', answer: '81', doorHint: 'POWER' });
-        LEVELS.push({ type: 'input', question: 'عدد رومی X چیه؟', hint: 'رومی', answer: '10', doorHint: 'ROMAN' });
-        LEVELS.push({ type: 'input', question: 'کدوم عدد فیبوناچی بعدی بعد از 21 هست؟', hint: '1,1,2,3,5,8,13,21,?', answer: '34', doorHint: 'FIBONACCI' });
-        LEVELS.push({ type: 'input', question: 'حاصل ۸ × ۹ = ?', hint: '۷۲', answer: '72', doorHint: 'MATH' });
-
-        // ========== مراحل 51-60: معماهای منطقی ==========
-        LEVELS.push({ type: 'input', question: 'اگه ۳ تا سیب داشته باشی و ۲ تا بدی، چند تا می‌مونه؟', hint: '۱', answer: '1', doorHint: 'LOGIC' });
-        LEVELS.push({ type: 'input', question: 'کدوم سنگین‌تره: ۱ کیلو پَر یا ۱ کیلو آهن؟', hint: 'هر دو ۱ کیلو!', answer: 'برابر', doorHint: 'TRICK' });
-        LEVELS.push({ type: 'input', question: 'دو تا پدر و دو تا پسر رفتن ماهیگیری. ۳ تا ماهی گرفتن. چرا؟', hint: 'پدربزرگ، پدر، پسر', answer: '3', doorHint: 'RIDDLE' });
-        LEVELS.push({ type: 'input', question: 'ساعت ۳:۰۰ زاویه بین عقربه‌ها؟', hint: '۳۰×۳', answer: '90', doorHint: 'CLOCK' });
-        LEVELS.push({ type: 'input', question: 'بعد از ۹۹ چیه؟', hint: 'سه رقمی', answer: '100', doorHint: 'NEXT' });
-        LEVELS.push({ type: 'input', question: 'حاصل ۷ + ۷ ÷ ۷ = ?', hint: 'اول تقسیم: 7/7=1 → 7+1', answer: '8', doorHint: 'ORDER' });
-        LEVELS.push({ type: 'input', question: 'نصف نصف ۱۰۰ چیه؟', hint: '۵۰ → ۲۵', answer: '25', doorHint: 'HALF' });
-        LEVELS.push({ type: 'input', question: 'تعداد ثانیه‌های یه ساعت؟', hint: '60×60', answer: '3600', doorHint: 'SECONDS' });
-        LEVELS.push({ type: 'input', question: 'چند تا صفر تو یک میلیون؟', hint: '1,000,000', answer: '6', doorHint: 'ZEROS' });
-        LEVELS.push({ type: 'input', question: 'حاصل ۲ × ۳ + ۴ × ۵ = ?', hint: 'اول ضرب', answer: '26', doorHint: 'ORDER' });
-
-        // ========== مراحل 61-70: معماهای سرگرم‌کننده ==========
-        LEVELS.push({ type: 'input', question: 'پایتخت ایران؟', hint: 'تهران', answer: 'تهران', doorHint: 'CAPITAL' });
-        LEVELS.push({ type: 'input', question: 'بزرگترین سیاره منظومه شمسی؟', hint: 'مشتری', answer: 'مشتری', doorHint: 'PLANET' });
-        LEVELS.push({ type: 'input', question: 'کدوم حیوون بلندترین گردن رو داره؟', hint: 'زرافه', answer: 'زرافه', doorHint: 'ANIMAL' });
-        LEVELS.push({ type: 'input', question: 'چند تا رنگ تو رنگین‌کمون؟', hint: 'قرمز تا بنفش', answer: '7', doorHint: 'RAINBOW' });
-        LEVELS.push({ type: 'input', question: 'تعداد قاره‌های زمین؟', hint: 'آسیا، اروپا...', answer: '7', doorHint: 'CONTINENTS' });
-        LEVELS.push({ type: 'input', question: 'ماه‌های فصل بهار؟ (به عدد)', hint: 'فروردین، اردیبهشت، خرداد', answer: '3', doorHint: 'SPRING' });
-        LEVELS.push({ type: 'input', question: 'زبان رسمی برزیل؟', hint: 'Portuguese', answer: 'پرتغالی', doorHint: 'LANGUAGE' });
-        LEVELS.push({ type: 'input', question: 'تعداد حروف انگلیسی؟', hint: 'A-Z', answer: '26', doorHint: 'ALPHABET' });
-        LEVELS.push({ type: 'input', question: 'کدوم فصل بعد از تابستون؟', hint: 'پاییز', answer: 'پاییز', doorHint: 'SEASON' });
-        LEVELS.push({ type: 'input', question: 'آب از چند اتم ساخته شده؟', hint: 'H₂O', answer: '3', doorHint: 'CHEMISTRY' });
-
-        // ========== مراحل 71-80: کد و برنامه‌نویسی ==========
-        LEVELS.push({ type: 'input', question: 'خروجی 2 + "2" توی JavaScript چیه؟', hint: 'Type coercion', answer: '22', doorHint: 'JAVASCRIPT' });
-        LEVELS.push({ type: 'input', question: 'typeof [] چیه؟', hint: 'آرایه هم آبجکته', answer: 'object', caseInsensitive: true, doorHint: 'TYPEOF' });
-        LEVELS.push({ type: 'input', question: 'true + true = ?', hint: 'true=1', answer: '2', doorHint: 'BOOLEAN' });
-        LEVELS.push({ type: 'input', question: 'طول آرایه [1,2,3,4,5] چیه؟', hint: 'length', answer: '5', doorHint: 'LENGTH' });
-        LEVELS.push({ type: 'input', question: 'console.log("5" - 3) چیه؟', hint: 'تبدیل می‌شه به عدد', answer: '2', doorHint: 'COERCION' });
-        LEVELS.push({ type: 'input', question: 'چند تا نوع داده اولیه توی JS داریم؟', hint: 'string, number, boolean, null, undefined, symbol, bigint', answer: '7', doorHint: 'DATATYPES' });
-        LEVELS.push({ type: 'input', question: 'NaN === NaN ؟ (true یا false)', hint: 'عجیبه!', answer: 'false', caseInsensitive: true, doorHint: 'NAN' });
-        LEVELS.push({ type: 'input', question: 'پایان یه فایل JS چیه؟', hint: '.js', answer: '.js', doorHint: 'EXTENSION' });
-        LEVELS.push({ type: 'input', question: 'کلمه کلیدی برای ساخت تابع؟', hint: 'f...', answer: 'function', caseInsensitive: true, doorHint: 'KEYWORD' });
-        LEVELS.push({ type: 'input', question: 'آیا 0.1 + 0.2 === 0.3 ؟ (true/false)', hint: 'شناور!', answer: 'false', caseInsensitive: true, doorHint: 'FLOAT' });
-
-        // ========== مراحل 81-90: معماهای سخت ==========
-        LEVELS.push({ type: 'input', question: 'حاصل ۱۲۳ × ۰ = ?', hint: 'هر چیزی ضرب در صفر', answer: '0', doorHint: 'ZERO' });
-        LEVELS.push({ type: 'input', question: 'کدوم بزرگتره: 2⁵ یا 5²؟', hint: '32 vs 25', answer: '2^5', doorHint: 'COMPARE' });
-        LEVELS.push({ type: 'input', question: 'جواب ۱۱ × ۱۱ = ?', hint: 'مربع ۱۱', answer: '121', doorHint: 'MATH' });
-        LEVELS.push({ type: 'input', question: 'تعداد اضلاع بیست‌ضلعی؟', hint: 'اسمش همه چیز رو می‌گه!', answer: '20', doorHint: 'POLYGON' });
-        LEVELS.push({ type: 'input', question: 'حاصل ۸! ÷ ۷! = ?', hint: '۸', answer: '8', doorHint: 'FACTORIAL' });
-        LEVELS.push({ type: 'input', question: 'کوچکترین عدد اول؟', hint: 'نه ۱', answer: '2', doorHint: 'PRIME' });
-        LEVELS.push({ type: 'input', question: 'سه به توان صفر = ?', hint: 'هر چیزی به توان ۰', answer: '1', doorHint: 'POWER' });
-        LEVELS.push({ type: 'input', question: 'تعداد روزهای فوریه در سال غیر کبیسه؟', hint: '28', answer: '28', doorHint: 'DAYS' });
-        LEVELS.push({ type: 'input', question: 'رادیکال ۶۴ = ?', hint: '۸', answer: '8', doorHint: 'SQRT' });
-        LEVELS.push({ type: 'input', question: '۱۰۰۰ - ۹۹۹ = ?', hint: 'یک', answer: '1', doorHint: 'MATH' });
-
-        // ========== مراحل 91-100: معماهای جهنمی ==========
-        LEVELS.push({ type: 'input', question: 'کدوم یکی از اینا مرغه؟ 🐔 🐧 🦆', hint: 'همه پرنده‌ن ولی فقط یکی مرغ', answer: '🐔', doorHint: 'CHICKEN' });
-        LEVELS.push({ type: 'input', question: 'حاصل (۲+۳) × (۴+۵) = ?', hint: '5 × 9', answer: '45', doorHint: 'MATH' });
-        LEVELS.push({ type: 'input', question: 'کلمه "شیر" چند تا معنی داره؟ (به عدد)', hint: 'شیر آب، شیر جنگل، شیر خوراکی', answer: '3', doorHint: 'MEANINGS' });
-        LEVELS.push({ type: 'input', question: 'امیرحسین چند سالشه اگه ۱۰ سال بعد ۲۵ ساله بشه؟', hint: '25 - 10', answer: '15', doorHint: 'AGE' });
-        LEVELS.push({ type: 'input', question: 'تعداد کل مستطیل‌ها تو صفحه شطرنج ۸×۸؟', hint: '(8×9/2)²', answer: '1296', doorHint: 'CHESS' });
-        LEVELS.push({ type: 'input', question: 'کدوم سریع‌تره: نور یا صدا؟', hint: 'نور', answer: 'نور', doorHint: 'SPEED' });
-        LEVELS.push({ type: 'input', question: 'جواب ۹۹۹ + ۱ = ?', hint: 'هزار', answer: '1000', doorHint: 'MATH' });
-        LEVELS.push({ type: 'input', question: 'تعداد کلمات این جمله رو بشمار: "من امروز خیلی خوشحالم"', hint: 'بشمار', answer: '4', doorHint: 'COUNT' });
-        LEVELS.push({ type: 'input', question: 'آخرین مرحله! جواب "پایان" هست. بنویسش', hint: 'پایان', answer: 'پایان', doorHint: 'THE END' });
-        LEVELS.push({ type: 'input', question: '🎉 تبریک! تو ۱۰۰ در رو باز کردی! بنویس "آزادی"', hint: 'آزادی', answer: 'آزادی', doorHint: 'FREEDOM' });
-
-        // ============================================
-        // 4) SPLASH → MENU
+        // 5) SPLASH → MENU
         // ============================================
         window.addEventListener('load', () => {
+            // Generate dust particles
+            generateDust();
+            
             let progress = 0;
             const fill = document.getElementById('loadingFill');
             const text = document.getElementById('loadingText');
             
             const interval = setInterval(() => {
-                progress += Math.random() * 15;
+                progress += Math.random() * 18;
                 if (progress >= 100) {
                     progress = 100;
                     clearInterval(interval);
                     setTimeout(() => {
                         showMenu();
-                    }, 500);
+                    }, 400);
                 }
                 fill.style.width = progress + '%';
                 
-                if (progress > 80) text.textContent = 'READY!';
-                else if (progress > 50) text.textContent = 'LOADING ASSETS...';
-                else if (progress > 20) text.textContent = 'PREPARING DOORS...';
-            }, 200);
+                if (progress > 85) text.textContent = 'READY!';
+                else if (progress > 60) text.textContent = 'SEALING VAULT...';
+                else if (progress > 30) text.textContent = 'UNLOCKING DOORS...';
+                else text.textContent = 'LOADING...';
+            }, 180);
         });
 
+        function generateDust() {
+            for (let i = 0; i < 20; i++) {
+                const dust = document.createElement('div');
+                dust.className = 'dust';
+                dust.style.left = Math.random() * 100 + '%';
+                dust.style.animationDuration = (Math.random() * 15 + 15) + 's';
+                dust.style.animationDelay = (Math.random() * 10) + 's';
+                dust.style.opacity = Math.random() * 0.5 + 0.3;
+                document.body.appendChild(dust);
+            }
+        }
+
         // ============================================
-        // 5) SCREEN MANAGEMENT
+        // 6) SCREEN MANAGEMENT
         // ============================================
         function showScreen(id) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -1304,13 +1960,12 @@
         function updateStats() {
             document.getElementById('statCompleted').textContent = state.completedLevels.length;
             document.getElementById('statScore').textContent = state.totalScore;
-            
             const totalStars = Object.values(state.stars).reduce((a, b) => a + b, 0);
             document.getElementById('statStars').textContent = totalStars;
         }
 
         // ============================================
-        // 6) LEVEL SELECT
+        // 7) LEVEL SELECT
         // ============================================
         function showLevels() {
             const grid = document.getElementById('levelGrid');
@@ -1328,11 +1983,10 @@
                 if (i === state.currentLevel && !isCompleted) btn.classList.add('current');
                 
                 const stars = state.stars[i] || 0;
-                const starStr = '⭐'.repeat(stars);
                 
                 btn.innerHTML = `
                     <div class="level-num">${i}</div>
-                    <div class="level-stars">${starStr}</div>
+                    <div class="level-stars">${'★'.repeat(stars)}</div>
                 `;
                 
                 if (isUnlocked || isCompleted) {
@@ -1346,7 +2000,7 @@
         }
 
         // ============================================
-        // 7) GAME
+        // 8) GAME
         // ============================================
         function startGame() {
             startLevel(state.currentLevel);
@@ -1359,14 +2013,19 @@
             attempts = 0;
             
             // Reset door
-            const door = document.getElementById('door');
-            door.classList.remove('opening', 'opened');
-            door.style.transform = '';
+            const panel = document.getElementById('doorPanel');
+            panel.classList.remove('opening', 'opened');
+            panel.style.transform = '';
+            panel.style.cursor = 'pointer';
+            
+            // Handle visibility
+            const handle = document.getElementById('doorHandle');
+            handle.classList.add('hidden');
             
             // Update info
             document.getElementById('gameLevelNum').textContent = levelNum;
             document.getElementById('doorNumber').textContent = levelNum;
-            document.getElementById('doorHint').textContent = currentStage.doorHint || 'TAP TO OPEN';
+            document.getElementById('doorRune').textContent = currentStage.doorHint[currentLang] || 'TAP TO OPEN';
             
             // Reset puzzle
             buildPuzzle();
@@ -1391,15 +2050,9 @@
             const questionEl = document.getElementById('puzzleQuestion');
             
             container.innerHTML = '';
-            questionEl.textContent = currentStage.question || '';
+            questionEl.textContent = currentStage.question[currentLang];
             
             const type = currentStage.type;
-            
-            // ===== TAP =====
-            if (type === 'tap') {
-                // فقط روی در کلیک
-                container.innerHTML = '<div style="color: var(--text-dim); font-size: 13px;">👆 برای باز کردن کلیک کن</div>';
-            }
             
             // ===== INPUT =====
             if (type === 'input') {
@@ -1418,7 +2071,7 @@
                 
                 const btn = document.createElement('button');
                 btn.className = 'puzzle-btn';
-                btn.textContent = 'بررسی';
+                btn.textContent = currentLang === 'fa' ? 'بررسی' : 'Check';
                 btn.onclick = checkInput;
                 
                 container.appendChild(input);
@@ -1427,153 +2080,228 @@
                 setTimeout(() => input.focus(), 300);
             }
             
-            // ===== COLORS =====
-            if (type === 'colors') {
-                const colors = ['#ff3860', '#06ffa5', '#00f0ff', '#ffd60a', '#b537f2', '#ff8c42'];
-                const grid = document.createElement('div');
-                grid.className = 'color-grid';
-                grid.style.gridTemplateColumns = 'repeat(3, 1fr)';
+            // ===== HIDDEN KEY =====
+            if (type === 'hidden-key') {
+                // Hide handle, no input needed
+                container.innerHTML = `<div class="hint-text">${currentLang === 'fa' ? '👆 کلید پنهان رو پیدا کن' : '👆 Find the hidden key'}</div>`;
                 
-                colors.forEach(color => {
-                    const btn = document.createElement('button');
-                    btn.className = 'color-btn';
-                    btn.style.background = color;
-                    btn.style.color = color;
-                    btn.onclick = () => checkColor(color);
-                    grid.appendChild(btn);
-                });
+                // Add hidden key somewhere on screen
+                const oldKey = document.querySelector('.hidden-key');
+                if (oldKey) oldKey.remove();
                 
-                container.appendChild(grid);
-            }
-            
-            // ===== SEQUENCE =====
-            if (type === 'sequence') {
-                const seq = currentStage.sequence || ['red', 'blue', 'green'];
-                const colorMap = {
-                    red: '#ff3860',
-                    blue: '#00f0ff',
-                    green: '#06ffa5',
-                    yellow: '#ffd60a',
-                    purple: '#b537f2',
-                    orange: '#ff8c42'
+                const key = document.createElement('div');
+                key.className = 'hidden-key';
+                key.textContent = '🗝️';
+                
+                // Random position in corners
+                const corners = [
+                    { top: '80px', left: '60px' },
+                    { top: '80px', right: '60px' },
+                    { bottom: '180px', left: '80px' },
+                    { bottom: '180px', right: '80px' }
+                ];
+                const pos = corners[Math.floor(Math.random() * corners.length)];
+                Object.assign(key.style, pos);
+                
+                key.onclick = () => {
+                    key.remove();
+                    completeLevel();
                 };
                 
+                document.body.appendChild(key);
+            }
+            
+            // ===== BLINKING LAMP =====
+            if (type === 'blinking-lamp') {
+                const colors = ['#e8b84a', '#b87333', '#8b3a1a', '#6b0f0f'];
+                const correctIdx = Math.floor(Math.random() * 4);
+                
                 const grid = document.createElement('div');
-                grid.className = 'color-grid';
-                grid.style.gridTemplateColumns = 'repeat(3, 1fr)';
-                grid.id = 'sequenceGrid';
+                grid.className = 'lamps-grid';
                 
-                let userSeq = [];
-                
-                seq.forEach((colorName, idx) => {
-                    const btn = document.createElement('button');
-                    btn.className = 'color-btn';
-                    btn.style.background = colorMap[colorName];
-                    btn.style.color = colorMap[colorName];
-                    btn.dataset.color = colorName;
-                    btn.onclick = () => {
-                        if (userSeq.includes(idx)) return;
-                        userSeq.push(idx);
-                        btn.classList.add('active');
-                        
-                        // نمایش ترتیب
-                        const display = document.getElementById('seqDisplay') || createSeqDisplay(container);
-                        display.textContent = userSeq.map(i => seq[i].toUpperCase()).join(' → ');
-                        
-                        if (userSeq.length === seq.length) {
-                            checkSequence(userSeq);
+                colors.forEach((color, idx) => {
+                    const lamp = document.createElement('div');
+                    lamp.className = 'lamp';
+                    lamp.style.background = color;
+                    lamp.style.color = color;
+                    
+                    if (idx === correctIdx) {
+                        lamp.classList.add('blinking');
+                    }
+                    
+                    lamp.onclick = () => {
+                        if (idx === correctIdx) {
+                            completeLevel();
+                        } else {
+                            attempts++;
+                            showToast('❌', t('wrongAnswer'), 'error');
+                            shakeDoor();
                         }
                     };
-                    grid.appendChild(btn);
+                    
+                    grid.appendChild(lamp);
                 });
                 
                 container.appendChild(grid);
             }
             
-            // ===== HOLD =====
-            if (type === 'hold') {
-                const seconds = currentStage.seconds || 3;
-                let holdStart = 0;
-                let holdInterval = null;
+            // ===== SEQUENCE LAMPS =====
+            if (type === 'sequence-lamps') {
+                const colors = ['#e8b84a', '#b87333', '#8b3a1a', '#6b0f0f'];
+                const seqLength = 3 + Math.floor(Math.random() * 2);
+                const sequence = [];
+                for (let i = 0; i < seqLength; i++) {
+                    sequence.push(Math.floor(Math.random() * 4));
+                }
+                
+                const grid = document.createElement('div');
+                grid.className = 'lamps-grid';
+                grid.style.gridTemplateColumns = 'repeat(4, 1fr)';
+                grid.style.maxWidth = '320px';
+                
+                const lamps = [];
+                colors.forEach((color, idx) => {
+                    const lamp = document.createElement('div');
+                    lamp.className = 'lamp';
+                    lamp.style.background = color;
+                    lamp.style.color = color;
+                    lamp.dataset.idx = idx;
+                    lamp.onclick = () => handleSeqClick(idx);
+                    lamps.push(lamp);
+                    grid.appendChild(lamp);
+                });
+                
+                container.appendChild(grid);
+                
+                let userSeq = [];
+                let isPlaying = false;
+                
+                // Show sequence after a moment
+                setTimeout(() => {
+                    isPlaying = true;
+                    let i = 0;
+                    const interval = setInterval(() => {
+                        if (i >= sequence.length) {
+                            clearInterval(interval);
+                            isPlaying = false;
+                            return;
+                        }
+                        const lamp = lamps[sequence[i]];
+                        lamp.classList.add('lit');
+                        setTimeout(() => lamp.classList.remove('lit'), 400);
+                        i++;
+                    }, 600);
+                }, 800);
+                
+                window.handleSeqClick = (idx) => {
+                    if (isPlaying) return;
+                    
+                    const lamp = lamps[idx];
+                    lamp.classList.add('lit');
+                    setTimeout(() => lamp.classList.remove('lit'), 300);
+                    
+                    userSeq.push(idx);
+                    
+                    if (userSeq[userSeq.length - 1] !== sequence[userSeq.length - 1]) {
+                        attempts++;
+                        showToast('❌', t('wrongAnswer'), 'error');
+                        shakeDoor();
+                        userSeq = [];
+                        return;
+                    }
+                    
+                    if (userSeq.length === sequence.length) {
+                        completeLevel();
+                    }
+                };
+            }
+            
+            // ===== QUICK TAP =====
+            if (type === 'quick-tap') {
+                // Add pulsing timer
+                let timeLeft = currentStage.seconds;
+                const timerDiv = document.createElement('div');
+                timerDiv.className = 'timer-btn';
+                timerDiv.textContent = timeLeft + 's';
+                
+                const updateTimerText = setInterval(() => {
+                    timeLeft--;
+                    if (timeLeft <= 0) {
+                        clearInterval(updateTimerText);
+                        attempts++;
+                        showToast('⏰', currentLang === 'fa' ? 'زمان تموم شد!' : 'Time\'s up!', 'error');
+                        shakeDoor();
+                        // Reset
+                        setTimeout(() => buildPuzzle(), 800);
+                    } else {
+                        timerDiv.textContent = timeLeft + 's';
+                    }
+                }, 1000);
+                
+                container.appendChild(timerDiv);
+                
+                // Door click completes
+                const panel = document.getElementById('doorPanel');
+                panel.onclick = () => {
+                    clearInterval(updateTimerText);
+                    completeLevel();
+                };
+            }
+            
+            // ===== TAP HANDLE =====
+            if (type === 'tap-handle') {
+                const handle = document.getElementById('doorHandle');
+                handle.classList.remove('hidden');
+                container.innerHTML = `<div class="hint-text">${currentLang === 'fa' ? '👆 دستگیره رو پیدا کن' : '👆 Find the handle'}</div>`;
+            }
+            
+            // ===== CONSOLE =====
+            if (type === 'console') {
+                console.log('%c🗝️ DOOR 41 CODE: door41', 'color: #e8b84a; font-size: 20px; font-weight: bold; background: #0a0506; padding: 10px;');
+                
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'puzzle-input';
+                input.placeholder = '?';
+                input.id = 'puzzleInput';
+                input.onkeydown = (e) => {
+                    if (e.key === 'Enter') checkInput();
+                };
                 
                 const btn = document.createElement('button');
                 btn.className = 'puzzle-btn';
-                btn.textContent = `نگه دار (${seconds}s)`;
-                btn.style.fontSize = '16px';
-                btn.style.padding = '20px 40px';
-                btn.style.userSelect = 'none';
-                btn.style.webkitUserSelect = 'none';
+                btn.textContent = currentLang === 'fa' ? 'بررسی' : 'Check';
+                btn.onclick = checkInput;
                 
-                const progressBar = document.createElement('div');
-                progressBar.style.cssText = 'width: 100%; max-width: 260px; height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden; margin: 10px auto;';
-                const progressFill = document.createElement('div');
-                progressFill.style.cssText = 'height: 100%; width: 0%; background: var(--grad-primary); border-radius: 4px; transition: width 0.1s linear;';
-                progressBar.appendChild(progressFill);
-                
-                const start = () => {
-                    holdStart = Date.now();
-                    clearInterval(holdInterval);
-                    holdInterval = setInterval(() => {
-                        const elapsed = (Date.now() - holdStart) / 1000;
-                        const pct = Math.min(100, (elapsed / seconds) * 100);
-                        progressFill.style.width = pct + '%';
-                        
-                        if (elapsed >= seconds) {
-                            clearInterval(holdInterval);
-                            completeLevel();
-                        }
-                    }, 50);
-                };
-                
-                const end = () => {
-                    if (holdInterval) clearInterval(holdInterval);
-                    progressFill.style.width = '0%';
-                };
-                
-                btn.addEventListener('mousedown', start);
-                btn.addEventListener('touchstart', start);
-                btn.addEventListener('mouseup', end);
-                btn.addEventListener('mouseleave', end);
-                btn.addEventListener('touchend', end);
-                
+                container.appendChild(input);
                 container.appendChild(btn);
-                container.appendChild(progressBar);
-            }
-        }
-
-        function createSeqDisplay(container) {
-            const display = document.createElement('div');
-            display.className = 'seq-display';
-            display.id = 'seqDisplay';
-            container.insertBefore(display, container.firstChild);
-            return display;
-        }
-
-        function checkColor(color) {
-            if (color === currentStage.targetColor) {
-                completeLevel();
-            } else {
-                attempts++;
-                showToast('❌', 'رنگ اشتباه!', 'error');
-                shakeDoor();
-            }
-        }
-
-        function checkSequence(userSeq) {
-            const correct = currentStage.sequence.map((_, i) => i);
-            const isCorrect = JSON.stringify(userSeq) === JSON.stringify(correct);
-            
-            if (isCorrect) {
-                completeLevel();
-            } else {
-                attempts++;
-                showToast('❌', 'ترتیب اشتباه!', 'error');
-                shakeDoor();
                 
-                // ریست
-                setTimeout(() => {
-                    buildPuzzle();
-                }, 800);
+                setTimeout(() => input.focus(), 300);
+            }
+            
+            // ===== URL HASH =====
+            if (type === 'url-hash') {
+                // Set URL hash
+                history.replaceState(null, '', '#door42');
+                
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'puzzle-input';
+                input.placeholder = '?';
+                input.id = 'puzzleInput';
+                input.onkeydown = (e) => {
+                    if (e.key === 'Enter') checkInput();
+                };
+                
+                const btn = document.createElement('button');
+                btn.className = 'puzzle-btn';
+                btn.textContent = currentLang === 'fa' ? 'بررسی' : 'Check';
+                btn.onclick = checkInput;
+                
+                container.appendChild(input);
+                container.appendChild(btn);
+                
+                setTimeout(() => input.focus(), 300);
             }
         }
 
@@ -1588,8 +2316,6 @@
             
             if (currentStage.caseInsensitive) {
                 isCorrect = userAnswer.toLowerCase() === correctAnswer.toLowerCase();
-            } else if (currentStage.tolerant) {
-                isCorrect = Math.abs(parseFloat(userAnswer) - parseFloat(correctAnswer)) <= currentStage.tolerant;
             } else {
                 isCorrect = userAnswer === correctAnswer;
             }
@@ -1598,9 +2324,9 @@
                 completeLevel();
             } else {
                 attempts++;
-                showToast('❌', 'اشتباه! دوباره تلاش کن', 'error');
+                showToast('❌', t('wrongAnswer'), 'error');
                 input.value = '';
-                input.style.borderColor = 'var(--neon-red)';
+                input.style.borderColor = '#8b3a1a';
                 shakeDoor();
                 setTimeout(() => {
                     input.style.borderColor = '';
@@ -1608,69 +2334,39 @@
             }
         }
 
-        function handleDoorClick(e) {
-            if (!currentStage) return;
+        function handleHandleClick(e) {
+            e.stopPropagation();
             
-            // اگه نوع tap
-            if (currentStage.type === 'tap') {
-                // چک کردن تعداد tap
-                if (currentStage.taps) {
-                    if (!currentStage._tapCount) currentStage._tapCount = 0;
-                    currentStage._tapCount++;
-                    
-                    if (currentStage._tapCount >= currentStage.taps) {
-                        currentStage._tapCount = 0;
-                        completeLevel();
-                    } else {
-                        // انیمیشن کوچیک
-                        const door = document.getElementById('door');
-                        door.style.transform = 'scale(0.95)';
-                        setTimeout(() => { door.style.transform = ''; }, 100);
-                    }
-                } else if (currentStage.targetHandle) {
-                    // باید دقیقاً روی دستگیره کلیک کنه
-                    const door = document.getElementById('door');
-                    const rect = door.getBoundingClientRect();
-                    const clickX = e.clientX;
-                    const handleX = rect.right - 25;
-                    
-                    if (Math.abs(clickX - handleX) < 30) {
-                        completeLevel();
-                    } else {
-                        attempts++;
-                        showToast('👆', 'روی دستگیره کلیک کن!', 'info');
-                        shakeDoor();
-                    }
-                } else {
-                    completeLevel();
-                }
+            if (currentStage && currentStage.type === 'tap-handle') {
+                completeLevel();
             }
         }
 
         function shakeDoor() {
-            const door = document.getElementById('door');
-            door.style.animation = 'shake 0.5s';
-            setTimeout(() => { door.style.animation = ''; }, 500);
+            const frame = document.getElementById('doorFrame');
+            frame.classList.add('shake');
+            setTimeout(() => frame.classList.remove('shake'), 500);
         }
 
         function completeLevel() {
             if (timerInterval) clearInterval(timerInterval);
             
+            // Remove hidden key
+            const key = document.querySelector('.hidden-key');
+            if (key) key.remove();
+            
             const elapsed = Math.floor((Date.now() - levelStartTime) / 1000);
             
-            // محاسبه امتیاز
             let score = 100;
             if (elapsed < 30) score += 50;
             if (elapsed < 15) score += 50;
             if (!hintUsed) score += 50;
             if (attempts === 0) score += 50;
             
-            // ستاره‌ها
             let stars = 1;
             if (!hintUsed && elapsed < 30) stars = 2;
             if (!hintUsed && elapsed < 20 && attempts === 0) stars = 3;
             
-            // ذخیره
             if (!state.completedLevels.includes(currentLevel)) {
                 state.completedLevels.push(currentLevel);
             }
@@ -1687,7 +2383,6 @@
                 state.stars[currentLevel] = stars;
             }
             
-            // باز کردن مرحله بعد
             if (currentLevel >= state.currentLevel && currentLevel < 100) {
                 state.currentLevel = currentLevel + 1;
             }
@@ -1695,16 +2390,18 @@
             saveState();
             checkAchievements();
             
-            // انیمیشن در
-            const door = document.getElementById('door');
-            door.classList.add('opening');
-            setTimeout(() => door.classList.add('opened'), 400);
+            // Animation
+            const panel = document.getElementById('doorPanel');
+            panel.classList.add('opening');
+            setTimeout(() => panel.classList.add('opened'), 400);
             
-            // نمایش صفحه پایان
+            // Show complete screen
             setTimeout(() => {
                 document.getElementById('completeTime').textContent = formatTime(elapsed);
                 document.getElementById('completeScore').textContent = '+' + score;
-                document.getElementById('completeStars').textContent = '⭐'.repeat(stars) + '☆'.repeat(3 - stars);
+                document.getElementById('completeStars').textContent = '⭐'.repeat(stars);
+                document.getElementById('completeTitle').textContent = t('completeTitle');
+                document.getElementById('completeSub').textContent = t('completeSub');
                 showScreen('screen-complete');
             }, 1200);
         }
@@ -1717,7 +2414,7 @@
 
         function nextLevel() {
             if (currentLevel >= 100) {
-                showToast('👑', 'همه ۱۰۰ مرحله رو تموم کردی!', 'achievement');
+                showToast('👑', t('allDone'), 'achievement');
                 showMenu();
                 return;
             }
@@ -1727,20 +2424,18 @@
         function useHint() {
             if (!currentStage) return;
             if (hintUsed) {
-                showToast('💡', 'قبلاً استفاده کردی!', 'info');
+                showToast('💡', t('hintUsed'), 'info');
                 return;
             }
             
             hintUsed = true;
-            showToast('💡', currentStage.hint, 'info');
-            
-            // کم کردن امتیاز
+            showToast('💡', currentStage.hint[currentLang], 'info');
             state.totalScore = Math.max(0, state.totalScore - 25);
             saveState();
         }
 
         // ============================================
-        // 8) ACHIEVEMENTS
+        // 9) ACHIEVEMENTS
         // ============================================
         function checkAchievements() {
             ACHIEVEMENTS.forEach(ach => {
@@ -1748,37 +2443,26 @@
                     state.achievements.push(ach.id);
                     saveState();
                     setTimeout(() => {
-                        showToast(ach.icon, '🏆 ' + ach.name + ' — ' + ach.desc, 'achievement');
+                        showToast(ach.icon, '🏆 ' + ach.name[currentLang], 'achievement');
                     }, 1500);
                 }
             });
         }
 
         function showAchievements() {
-            const grid = document.getElementById('achievementsGrid');
+            const grid = document.getElementById('achGrid');
             grid.innerHTML = '';
             
             ACHIEVEMENTS.forEach(ach => {
                 const unlocked = state.achievements.includes(ach.id);
                 
                 const card = document.createElement('div');
-                card.className = 'level-btn';
-                card.style.cssText = `
-                    aspect-ratio: auto;
-                    padding: 20px 12px;
-                    opacity: ${unlocked ? '1' : '0.4'};
-                    cursor: default;
-                    display: flex;
-                    flex-direction: column;
-                    gap: 8px;
-                    min-height: 140px;
-                    ${unlocked ? 'background: linear-gradient(135deg, rgba(255, 214, 10, 0.15), rgba(255, 140, 66, 0.15)); border-color: rgba(255, 214, 10, 0.5);' : ''}
-                `;
+                card.className = 'ach-card' + (unlocked ? ' unlocked' : '');
                 
                 card.innerHTML = `
-                    <div style="font-size: 36px; filter: ${unlocked ? 'drop-shadow(0 0 15px rgba(255,214,10,0.6))' : 'grayscale(1)'};">${ach.icon}</div>
-                    <div style="font-size: 13px; font-weight: 800; color: ${unlocked ? 'var(--neon-yellow)' : 'var(--text-dim)'};">${ach.name}</div>
-                    <div style="font-size: 11px; color: var(--text-dim); line-height: 1.5;">${ach.desc}</div>
+                    <div class="ach-icon">${ach.icon}</div>
+                    <div class="ach-name">${ach.name[currentLang]}</div>
+                    <div class="ach-desc">${ach.desc[currentLang]}</div>
                 `;
                 
                 grid.appendChild(card);
@@ -1788,44 +2472,42 @@
         }
 
         // ============================================
-        // 9) SHARE
+        // 10) SHARE
         // ============================================
         function shareScore() {
             const completed = state.completedLevels.length;
             const score = state.totalScore;
             const stars = Object.values(state.stars).reduce((a, b) => a + b, 0);
             
-            const text = `🚪 من تونستم ${completed} از ۱۰۰ مرحله 100 Doors رو باز کنم!\n⭐ ${stars} ستاره\n💎 ${score} امتیاز\n\nتو چندتا می‌تونی؟ 🎮`;
-            const url = window.location.href;
+            const text = t('shareText')(completed, score, stars);
+            const url = window.location.origin + window.location.pathname;
             
             if (navigator.share) {
                 navigator.share({
-                    title: '100 Doors',
+                    title: '100 Doors — Ancient Vault',
                     text: text,
                     url: url
                 }).catch(() => {});
             } else {
-                // کپی در clipboard
                 navigator.clipboard.writeText(text + '\n' + url).then(() => {
-                    showToast('📋', 'لینک کپی شد!', 'success');
+                    showToast('📋', t('copied'), 'success');
                 }).catch(() => {
-                    // fallback
                     const textarea = document.createElement('textarea');
                     textarea.value = text + '\n' + url;
                     document.body.appendChild(textarea);
                     textarea.select();
                     document.execCommand('copy');
                     textarea.remove();
-                    showToast('📋', 'لینک کپی شد!', 'success');
+                    showToast('📋', t('copied'), 'success');
                 });
             }
         }
 
         // ============================================
-        // 10) RESET
+        // 11) RESET
         // ============================================
         function resetProgress() {
-            if (!confirm('مطمئنی می‌خوای همه پیشرفتت رو پاک کنی؟')) return;
+            if (!confirm(t('resetConfirm'))) return;
             
             state = {
                 currentLevel: 1,
@@ -1838,18 +2520,18 @@
             
             saveState();
             updateStats();
-            showToast('🔄', 'همه چیز ریست شد!', 'info');
+            showToast('🔄', t('resetDone'), 'info');
         }
 
         // ============================================
-        // 11) STORAGE
+        // 12) STORAGE
         // ============================================
         function saveState() {
             localStorage.setItem('doors_state', JSON.stringify(state));
         }
 
         // ============================================
-        // 12) TOAST
+        // 13) TOAST
         // ============================================
         function showToast(icon, message, type = 'info') {
             const container = document.getElementById('toastContainer');
@@ -1865,19 +2547,27 @@
         }
 
         // ============================================
-        // 13) SHAKE ANIMATION
+        // 14) DOOR PANEL CLICK (for tap-handle and quick-tap)
         // ============================================
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes shake {
-                0%, 100% { transform: translateX(0); }
-                20% { transform: translateX(-10px); }
-                40% { transform: translateX(10px); }
-                60% { transform: translateX(-10px); }
-                80% { transform: translateX(10px); }
+        document.getElementById('doorPanel').addEventListener('click', (e) => {
+            if (!currentStage) return;
+            
+            if (currentStage.type === 'quick-tap' || currentStage.type === 'hidden-key') {
+                // Handled by specific puzzle
+                return;
             }
-        `;
-        document.head.appendChild(style);
+            
+            if (currentStage.type === 'tap-handle') {
+                // Only handle click works
+                showToast('👆', currentLang === 'fa' ? 'روی دستگیره کلیک کن!' : 'Click the handle!', 'info');
+                return;
+            }
+        });
+
+        // ============================================
+        // 15) STARTUP
+        // ============================================
+        applyLanguage();
     </script>
 
 </body>
